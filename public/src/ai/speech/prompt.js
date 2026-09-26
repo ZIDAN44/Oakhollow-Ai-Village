@@ -87,7 +87,8 @@ const ACT_WANTS = {
   breakup: (npc, act, target, tn) => `${npc.name} is ending their romantic relationship with ${tn}. Say it in character, honestly.`,
   voice(npc, act) {
     const belief = fill(VOICE_BELIEFS[npc.belief?.kind]?.desc || 'unsure what it is', npc);
-    return `${npc.name} is speaking OUT LOUD to an invisible Voice they hear in their head (they believe: ${belief}). ` +
+    const how = act.mode === 'think' ? 'silently, in their thoughts,' : 'OUT LOUD';
+    return `${npc.name} is answering ${how} an invisible Voice they hear in their head (they believe: ${belief}). ` +
       (npc.lastWhisper ? `The Voice last told them: "${npc.lastWhisper}". ` : '') +
       (act.mode === 'sign' ? 'They demand a sign that it is real.' : 'They speak to it from the heart, about what troubles or moves them right now.');
   },

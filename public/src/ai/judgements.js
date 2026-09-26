@@ -3,7 +3,7 @@ import { MOOD_LEVELS } from './questions.js';
 import { choose } from './sampling.js';
 import { sim } from '../core/state.js';
 import { pick } from '../core/util.js';
-import { VOICE_BELIEFS } from '../data/lore.js';
+import { VOICE_BELIEFS, VOICE_REACTIONS } from '../data/lore.js';
 import { ADULT_ROLES, ROLE_SKILL } from '../data/skills.js';
 import { FIRST, fill } from '../identity/identity.js';
 import { driftBase } from '../social/relationships.js';
@@ -17,6 +17,16 @@ export function note(npc, text, kind) {
 // Order matters: several steps sample from Jev's probabilities.
 export function applyJudgements(npc, answers, near) {
   for (const step of JUDGEMENT_STEPS) step(npc, answers, near);
+}
+
+// A whisper is someone speaking to you, so it gets its own question (the "inner voice" of Generative Agents).
+// As an everyday option it competed with everything else and Jev scored it 0, so nobody ever answered.
+// Returns the chosen { key, act } when the person answers the voice, or null.
+export function voiceReply(npc, answers) {
+  if (!npc.unansweredWhisper || !answers.voice_reaction) return null;
+  npc.unansweredWhisper = false;
+  const r = VOICE_REACTIONS[choose(answers.voice_reaction)];
+  return r?.mode ? { key: r.label, act: { type: 'voice', mode: r.mode } } : null;
 }
 
 function applyMood(npc, answers) {

@@ -1,5 +1,5 @@
 // Thinking: one Jev request per decision, sampled from its probabilities.
-import { applyJudgements } from './judgements.js';
+import { applyJudgements, voiceReply } from './judgements.js';
 import { topOf, choose } from './sampling.js';
 import { offlineAnswers } from './offline.js';
 import { buildOptions } from './options/index.js';
@@ -23,7 +23,8 @@ export async function think(npc) {
   applyJudgements(npc, answers, near);
 
   const chosenKey = choose(answers.action);
-  const chosen = options.find(o => o.key === chosenKey) || options.find(o => o.key === answers.action?.choice) || options[options.length - 1];
+  const chosen = voiceReply(npc, answers)
+    || options.find(o => o.key === chosenKey) || options.find(o => o.key === answers.action?.choice) || options[options.length - 1];
   const act = structuredClone(chosen.act);
   if (act.type === 'say') prepareSay(npc, act, answers, near);
   if (sim.speech && SPOKEN.includes(act.type)) await addFreeformWords(npc, act); // no await otherwise: keeps offline ticks synchronous

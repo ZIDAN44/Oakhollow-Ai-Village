@@ -1,6 +1,6 @@
 // The typed questions sent to Jev alongside the action.
 import { sim } from '../core/state.js';
-import { VOICE_BELIEFS } from '../data/lore.js';
+import { VOICE_BELIEFS, VOICE_REACTIONS } from '../data/lore.js';
 import { ADULT_ROLES } from '../data/skills.js';
 import { fill, genderWord, orientationWord } from '../identity/identity.js';
 import { chatWith, gossipCandidates } from '../social/conversation.js';
@@ -108,6 +108,13 @@ export function buildQuestions(npc, options, near) {
       type: 'choice',
       instructions: `${me} has heard a voice in their head (see memories). What does ${me} come to believe it is, given their personality, beliefs, losses and what it said?`,
       criteria: Object.fromEntries(Object.entries(VOICE_BELIEFS).map(([k, v]) => [k, fill(v.desc, npc)])),
+    };
+  }
+  if (npc.unansweredWhisper) {
+    q.voice_reaction = {
+      type: 'choice',
+      instructions: fill(`A voice in ${me}'s head just said: "${npc.lastWhisper}". How does ${me} react right now, given {their} personality, mood and what {they} believe{s} the voice is?`, npc),
+      criteria: Object.fromEntries(Object.entries(VOICE_REACTIONS).map(([k, v]) => [k, fill(v.desc, npc)])),
     };
   }
   if (npc.comingOfAge) {

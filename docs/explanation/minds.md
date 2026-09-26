@@ -25,19 +25,20 @@ hour; importance is 1 to 10; relevance counts shared keywords.
 
 ## The questions
 
-| Question           | Type   | Asked when                                              |
-| ------------------ | ------ | ------------------------------------------------------- |
-| `action`           | choice | always                                                  |
-| `mood`             | score  | always                                                  |
-| `say_N`, `say_all` | choice | someone is nearby: which kind of line to say to them    |
-| `feel_N`           | score  | someone is nearby: how the person feels about them      |
-| `attract_N`        | noul   | someone nearby they have met and could be attracted to  |
-| `news`             | choice | they know recent news: which item they would tell       |
-| `topic_person`     | choice | they know at least two people: who is on their mind     |
-| `vote`             | choice | an election is running                                  |
-| `voice_belief`     | choice | the person was just whispered to                        |
-| `role`             | choice | a child comes of age                                    |
-| `keep`, `goal`     | choice | reflection: after important events add up, or on waking |
+| Question           | Type   | Asked when                                                  |
+| ------------------ | ------ | ----------------------------------------------------------- |
+| `action`           | choice | always                                                      |
+| `mood`             | score  | always                                                      |
+| `say_N`, `say_all` | choice | someone is nearby: which kind of line to say to them        |
+| `feel_N`           | score  | someone is nearby: how the person feels about them          |
+| `attract_N`        | noul   | someone nearby they have met and could be attracted to      |
+| `news`             | choice | they know recent news: which item they would tell           |
+| `topic_person`     | choice | they know at least two people: who is on their mind         |
+| `vote`             | choice | an election is running                                      |
+| `voice_belief`     | choice | the person was just whispered to                            |
+| `voice_reaction`   | choice | the person was just whispered to: answer, ask, or ignore it |
+| `role`             | choice | a child comes of age                                        |
+| `keep`, `goal`     | choice | reflection: after important events add up, or on waking     |
 
 In reflection, the person picks which recent moment becomes a lasting life memory and whether their goal
 changes.

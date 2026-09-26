@@ -10,6 +10,7 @@ export { die } from './life/death.js';
 export { arrive } from './life/arrivals.js';
 export { startAction, stepNpc } from './actions/index.js';
 export { think } from './ai/think.js';
+export { buildQuestions } from './ai/questions.js';
 export { buildOptions } from './ai/options/index.js';
 export { separate } from './nav/crowd.js';
 export { findPath, blockedAt } from './nav/nav.js';

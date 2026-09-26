@@ -25,6 +25,7 @@ export function whisper(npc, text) {
   npc.lastWhisper = text;
   npc.awareness = Math.min(100, (npc.awareness || 0) + 12);
   npc.pendingVoice = true;
+  npc.unansweredWhisper = true;
   npc.lastHeardFrom = null;
   wake(npc);
 }
@@ -65,12 +66,26 @@ export function speakToVoice(npc, mode = 'speak', customText) {
   if (mode === 'sign') text = 'If you are real, give me a sign. Say my name.';
   if (customText) text = customText;
   say(npc, text, 6000, 'voice');
-  sim.voiceMessages.push({ from: npc.name, color: npc.color, text, time: `D${sim.day()} ${sim.clock()}`, unread: true });
-  if (sim.voiceMessages.length > 100) sim.voiceMessages.shift();
+  if (mode === 'think') return answerInThought(npc, text);
+  postToVoices(npc, text);
   chronicle(`🗣️ ${npc.name} speaks to the Voice: "${text}"`, npc, 'voice');
   remember(npc, `You spoke aloud to the Voice: "${text}"`, null, 5);
   witness(npc, `${npc.name} was talking to the sky: "${text}"`, `${npc.name} has been talking to an invisible voice`, { importance: 5 })
     .forEach(o => addMod(o, npc.name, 'talks to thin air', { trust: -4 }, 72));
   npc.awaitingSign = mode === 'sign' ? sim.time : npc.awaitingSign;
+  npc.lastSpokeToVoice = sim.time;
+}
+
+// Replies to the player land in the Voices tab.
+function postToVoices(npc, text) {
+  sim.voiceMessages.push({ from: npc.name, color: npc.color, text, time: `D${sim.day()} ${sim.clock()}`, unread: true });
+  if (sim.voiceMessages.length > 100) sim.voiceMessages.shift();
+}
+
+// A silent answer: the player hears it in Voices, but nobody nearby does, so nobody thinks them strange.
+function answerInThought(npc, text) {
+  postToVoices(npc, text);
+  chronicle(`💭 ${npc.name} answers the Voice in thought: "${text}"`, npc, 'voice');
+  remember(npc, `You answered the Voice in your head: "${text}"`, null, 5);
   npc.lastSpokeToVoice = sim.time;
 }

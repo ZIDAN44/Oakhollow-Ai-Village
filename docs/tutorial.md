@@ -36,7 +36,8 @@ Promises, The Voice) to narrow it down.
 ## 4. Speak to someone
 
 In the inspector, type a message in the whisper box and send it. The villager hears a voice in their head
-and decides what it is. Their replies to you appear in **Voices**.
+and decides what it is. On their next decision they choose whether to answer it in thought, answer it out loud (others
+may think them strange), ask it for a sign, or ignore it. Their replies to you appear in **Voices**.
 
 ## 5. Change the world
 
