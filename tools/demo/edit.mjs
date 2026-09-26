@@ -9,8 +9,10 @@ const NULL_OUT = process.platform === 'win32' ? 'NUL' : '/dev/null';
 const x264 = (crf, preset = 'slow') => ['-c:v', 'libx264', '-preset', preset, '-crf', String(crf), '-tune', 'animation', '-movflags', '+faststart'];
 
 const TITLES = { intro: 'Intro', map: 'The map', mind: 'Inside a head', follow: 'Follow a villager', whisper: 'Whisper',
-  event: 'Announce an event', weather: 'Weather', villager: 'Add a villager', possibility: 'Add a possibility', election: 'Election',
-  chronicle: 'Chronicle', voices: 'Voices', village: 'Village panel', timelapse: 'Time-lapse', outro: 'Run it yourself' };
+  event: 'Events', weather: 'Weather', villager: 'Add a villager', possibility: 'Add a possibility', election: 'Election',
+  chronicle: 'Chronicle', voices: 'Voices', village: 'Village panel', timelapse: 'Time-lapse', outro: 'Outro' };
+// YouTube ignores all chapters if any is shorter than 10 s, so shorter ones join the chapter before.
+const MIN_CHAPTER = 10;
 
 // Joins [start, end] segments with crossfades. Returns the filter graph and the length of the result.
 function joinGraph(segs, fade, finish) {
@@ -24,10 +26,21 @@ function joinGraph(segs, fade, finish) {
   return { graph: parts.join(';'), len };
 }
 
+function mergeShort(list, fullLen) {
+  const out = [];
+  list.forEach((c, i) => {
+    const len = (list[i + 1]?.start ?? fullLen) - c.start;
+    if (len < MIN_CHAPTER && out.length) out.at(-1).title += ` and ${c.title.toLowerCase()}`;
+    else out.push({ ...c });
+  });
+  return out;
+}
+
 // Chapter list for the full tour, in its own timeline (the time-lapse tail before the outro is cut).
-function chapters(marks, t, fullLen) {
+export function chapters(marks, fullLen) {
+  const t = name => marks.find(m => m.name === name)?.t;
   const cutAt = t('tl-end') - 0.2;
-  const list = marks.filter(m => m.name.startsWith('ch:')).map(m => ({ title: TITLES[m.name.slice(3)], start: m.name === 'ch:outro' ? cutAt - 0.6 : Math.max(0, m.t - 0.2) }));
+  const list = mergeShort(marks.filter(m => m.name.startsWith('ch:')).map(m => ({ title: TITLES[m.name.slice(3)], start: m.name === 'ch:outro' ? cutAt - 0.6 : Math.max(0, m.t - 0.2) })), fullLen);
   let meta = ';FFMETADATA1\ntitle=Oakhollow demo\n';
   list.forEach((c, i) => {
     const end = i + 1 < list.length ? list[i + 1].start : fullLen;
@@ -54,7 +67,7 @@ export function edit({ master, marks, out, ffmpeg = 'ffmpeg' }) {
   const up = 'scale=1920:1080:flags=lanczos,format=yuv420p';
 
   const full = joinGraph([[0.2, t('tl-end') - 0.2], [t('ch:outro') + 0.3, t('end') - 0.2]], 0.6, up);
-  const ch = chapters(marks, t, full.len);
+  const ch = chapters(marks, full.len);
   writeFileSync(file('chapters.txt'), ch.meta);
   writeFileSync(file('youtube-chapters.txt'), ch.youtube);
   run(['-i', master, '-i', file('chapters.txt'), '-filter_complex', full.graph, '-map', '[v]', '-map_metadata', '1', '-map_chapters', '1', ...x264(18), file('oakhollow-demo-full-1080p60.mp4')]);
