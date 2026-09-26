@@ -10,6 +10,7 @@ Each section is a short recipe. Run `npm run verify` after any code change.
 - [Add an effect type](#add-an-effect-type)
 - [Change behaviour on purpose](#change-behaviour-on-purpose)
 - [Update the generated docs](#update-the-generated-docs)
+- [Record the demo video](#record-the-demo-video)
 
 ## Use an OpenRouter key
 
@@ -138,3 +139,35 @@ npm run docs:build
 ```
 
 This rewrites `docs/reference/effects.md`, `verbs.md` and `world.md` from the code.
+
+## Record the demo video
+
+`npm run demo:record` plays a scripted tour of the game and cuts it into videos. Only the camera is scripted:
+with an API key, Jev runs the villagers live, so every take is different. A take costs a few cents in API calls.
+
+You need Google Chrome and [ffmpeg](https://ffmpeg.org/download.html) on your `PATH`. Chrome runs headless, so
+you can keep working while it records (about five minutes).
+
+```bash
+npm run demo:record                 # live, with the key in .env
+npm run demo:record -- --offline    # free dry run with the offline brain
+```
+
+The videos go to `recordings/`, which git ignores:
+
+| File                                    | Use                                        |
+| --------------------------------------- | ------------------------------------------ |
+| `oakhollow-demo-readme-720p.mp4`        | Under 10 MB, so GitHub plays it inline     |
+| `oakhollow-demo-full-1080p60.mp4`       | The full tour, with chapters               |
+| `oakhollow-demo-highlights-1080p60.mp4` | The short cut in 1080p                     |
+| `youtube-chapters.txt`                  | Chapter timestamps for a video description |
+| `oakhollow-poster.png`                  | A still frame                              |
+| `master.mp4`, `marks.json`              | The raw take and its chapter markers       |
+
+Options: `--headed` shows the browser while it records, `--channel msedge` or `--channel chromium` uses another
+browser, `--ffmpeg <path>` points to ffmpeg, `--port` sets the port of the game server the recorder starts
+(default 3100), and `--out` sets the folder.
+
+To change the tour, edit the scenes in `tools/demo/tour/`. Each scene logs markers such as `M('ch:event')`, and
+`tools/demo/edit.mjs` cuts the videos relative to those markers. Frames come from Playwright's `page.screencast`:
+`tools/demo/capture.mjs` places each one on a 60 fps timeline by its capture time and pipes it into ffmpeg.

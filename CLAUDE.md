@@ -11,6 +11,7 @@ All game code lives in `public/src/`, split into layers. Read this before changi
   `lint:md` Markdown formatting).
 - `npm run docs:build`: regenerate `docs/reference/` from the code. `npm run format:md`: format Markdown with Prettier.
 - `npm run report:deps`: module sizes and import cycles. `npm run setup:hooks`: enable the pre-commit hook.
+- `npm run demo:record`: record the demo video to `recordings/` (needs Chrome and ffmpeg; see `docs/how-to.md`).
 
 ## Hard rules (enforced by `npm run lint`, the pre-commit hook and CI)
 

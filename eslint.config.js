@@ -28,7 +28,17 @@ export default [
     },
   },
   {
+    // Injected into the game page by tools/demo/record.mjs.
+    files: ['tools/demo/overlay.js'],
+    languageOptions: { ecmaVersion: 'latest', sourceType: 'script', globals: { ...globals.browser } },
+  },
+  {
     files: ['server.js', 'tools/**/*.mjs', 'tests/**/*.mjs', 'eslint.config.js'],
     languageOptions: { ecmaVersion: 'latest', sourceType: 'module', globals: { ...globals.node } },
+  },
+  {
+    // The demo tour passes callbacks to page.evaluate, which run inside the game page.
+    files: ['tools/demo/**/*.mjs'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
 ];

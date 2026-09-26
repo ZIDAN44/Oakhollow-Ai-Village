@@ -22,6 +22,9 @@ coverage/
 # Output of npm pack
 *.tgz
 
+# Demo videos from npm run demo:record
+recordings/
+
 # Claude Code: personal settings and worktrees stay local
 # (shared project config such as .claude/launch.json can be committed)
 .claude/settings.local.json
