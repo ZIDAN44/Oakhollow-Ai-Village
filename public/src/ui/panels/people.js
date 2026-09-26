@@ -16,7 +16,7 @@ import { on } from '../../core/events.js';
 export function renderRoster() {
   $('roster').innerHTML = sim.npcs.map((n, i) => `
     <button class="chip ${sim.selected === n ? 'sel' : ''}" data-i="${i}">
-      <span class="dot" style="background:${n.color}"></span>${esc(n.name)}${n.name === sim.leader ? ' 👑' : ''}${n.age < 16 ? ' <small>(' + n.age + ')</small>' : ''}
+      <span class="avatar" style="--c:${n.color}">${esc(n.name[0])}</span>${esc(n.name)}${n.name === sim.leader ? ' 👑' : ''}${n.age < 16 ? ' <small>(' + n.age + ')</small>' : ''}
     </button>`).join('');
   $('roster').querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => select(sim.npcs[Number(b.dataset.i)])));
 }
@@ -28,7 +28,7 @@ export function renderInspector(force) {
   const el = $('inspector');
   if (!n || !sim.npcs.includes(n)) {
     ui.inspected = null;
-    el.innerHTML = '<p class="muted">Click someone on the map (or above) to see inside their head.</p>';
+    el.innerHTML = '<div class="empty"><span class="big-icon">🔍</span>Click someone on the map, or pick a name above, to see inside their head.</div>';
     return;
   }
   if (!force && ui.inspected === n && $('live')) { $('live').innerHTML = liveHtml(n); return; }
@@ -37,13 +37,13 @@ export function renderInspector(force) {
     n.children.length && `children: ${n.children.join(', ')}`, n.parents.length && `parents: ${n.parents.join(', ')}`].filter(Boolean).join(' · ');
   const owned = sim.places.filter(p => p.biz?.owner === n.name).map(p => p.name);
   el.innerHTML = `
-    <div class="who"><span class="dot big" style="background:${n.color}"></span>
+    <div class="who"><span class="avatar big" style="--c:${n.color}">${esc(n.name[0])}</span>
       <div><h3>${esc(n.name)} ${n.name === sim.leader ? '<span class="tag gold">Leader</span>' : ''}${n.traveller ? '<span class="tag">Traveller</span>' : ''}</h3>
       <div class="muted">${n.age} · ${esc(genderWord(n))} · ${esc(P(n).label)} · ${esc(n.role)}${n.job ? ` · works at ${esc(n.job.place)}` : ''}${owned.length ? ` · owns ${esc(owned.join(', '))}` : ''}</div>
       ${family ? `<div class="small">${esc(family)}</div>` : ''}</div></div>
-    <p class="small">${esc(n.personality)}${n.age >= 16 ? ` <span class="muted">Romantically ${esc(orientationWord(n))}.</span>` : ''}</p>
-    <p class="small"><b>Purpose:</b> ${esc(n.goal)}${n.goal !== n.coreGoal ? ` <span class="muted">(originally: ${esc(n.coreGoal)})</span>` : ''}</p>
-    ${n.secret ? `<details class="small"><summary>Secret</summary>${esc(n.secret)}</details>` : ''}
+    <p class="bio">${esc(n.personality)}${n.age >= 16 ? ` <span class="muted">Romantically ${esc(orientationWord(n))}.</span>` : ''}</p>
+    <p class="bio"><b>Purpose:</b> ${esc(n.goal)}${n.goal !== n.coreGoal ? ` <span class="muted">(originally: ${esc(n.coreGoal)})</span>` : ''}</p>
+    ${n.secret ? `<details class="secret"><summary>Secret</summary>${esc(n.secret)}</details>` : ''}
     <div class="whisper">
       <input id="whisperText" placeholder="Whisper into ${esc(n.name)}'s mind…" maxlength="200">
       <button id="whisperBtn">Whisper</button>

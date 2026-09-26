@@ -1,0 +1,69 @@
+/* Design tokens: colours (OKLCH, so equal lightness steps look equal), type, spacing, radii and motion. */
+:root {
+  /* Surfaces, darkest to lightest. Same hue so the greys feel like one family. */
+  --bg: oklch(17% 0.012 150);
+  --surface-1: oklch(20.5% 0.013 150);
+  --surface-2: oklch(24.5% 0.014 150);
+  --surface-3: oklch(29% 0.016 150);
+  --line: oklch(33% 0.016 150);
+  --line-soft: oklch(28% 0.014 150 / 0.7);
+
+  /* Text: body copy stays above 7:1 on --surface-1, muted text above 4.5:1. */
+  --text: oklch(93% 0.012 90);
+  --text-2: oklch(84% 0.012 90);
+  --muted: oklch(70% 0.014 130);
+
+  /* One warm accent, plus meaning colours at matching lightness so none shouts louder than another. */
+  --accent: oklch(80% 0.12 75);
+  --accent-strong: oklch(84% 0.14 78);
+  --accent-soft: oklch(80% 0.12 75 / 0.16);
+  --on-accent: oklch(22% 0.03 70);
+  --good: oklch(76% 0.13 145);
+  --bad: oklch(70% 0.15 35);
+  --info: oklch(78% 0.09 235);
+  --magic: oklch(78% 0.1 295);
+  --love: oklch(76% 0.13 5);
+  --gold: oklch(86% 0.15 90);
+
+  /* Chronicle kinds */
+  --k-life: oklch(82% 0.1 150);
+  --k-event: var(--accent);
+  --k-crime: oklch(76% 0.12 35);
+  --k-voice: var(--magic);
+  --k-invent: oklch(86% 0.13 92);
+  --k-promise: var(--info);
+  --k-god: oklch(76% 0.11 300);
+
+  /* Type: a serif for the village's name, a clean sans for everything you read. */
+  --font-ui: 'Inter', 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --fs-xs: 11px;
+  --fs-sm: 12.5px;
+  --fs-md: 14px;
+  --fs-lg: 17px;
+
+  /* Spacing on a 4px grid */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-pill: 999px;
+
+  --shadow-1: 0 1px 2px oklch(0% 0 0 / 0.3);
+  --shadow-2: 0 8px 24px oklch(0% 0 0 / 0.35), 0 2px 6px oklch(0% 0 0 / 0.25);
+  --glass: oklch(20% 0.013 150 / 0.72);
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --t-fast: 120ms;
+  --t-med: 220ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --t-fast: 0ms; --t-med: 0ms; }
+  *, *::before, *::after { animation-duration: 0ms !important; transition-duration: 0ms !important; }
+}

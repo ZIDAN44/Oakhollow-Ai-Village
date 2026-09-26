@@ -11,7 +11,7 @@ import { $, esc } from '../dom.js';
 export function renderVillage() {
   const el = $('villageInfo');
   if (!el || !$('panel-village').classList.contains('active')) return;
-  el.innerHTML = VILLAGE_SECTIONS.map(section => section()).join('\n');
+  el.innerHTML = VILLAGE_SECTIONS.map(section => section()).filter(Boolean).map(html => `<section class="card">${html}</section>`).join('\n');
 }
 
 const dueIn = (at, per, round = 1) => Math.round((at - sim.time) / per * round) / round;

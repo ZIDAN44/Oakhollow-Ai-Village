@@ -17,7 +17,7 @@ Each folder is a layer. A module may import only from its own layer or layers be
 | 5   | `effects/`                      | Effect types used by inventions and activities.                                                      |
 | 6   | `actions/`                      | Verbs, and what happens when actions finish.                                                         |
 | 7   | `ai/`                           | Options, perception and questions for Jev; thinking; speech; inventing.                              |
-| 8   | `ui/`                           | Map drawing and side panels.                                                                         |
+| 8   | `ui/`                           | Map drawing, the camera and map input, side panels, event toasts. Styles are in `public/styles/`.    |
 | 9   | `app/`, `api.js`                | Boot, main loop, saving. `api.js` is the entry point for tests and tools.                            |
 
 When a lower layer needs to trigger something above it, it emits an event (`core/events.js`) and the higher

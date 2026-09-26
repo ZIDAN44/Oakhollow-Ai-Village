@@ -1,6 +1,6 @@
 // Drawing places and buildings.
 import { sim } from '../../core/state.js';
-import { S, ctx, roundRect, view } from '../canvas.js';
+import { FONT, S, ctx, roundRect, view } from '../canvas.js';
 import { TERRAIN_DRAWERS } from './terrain.js';
 
 export const BIZ_ICON = { clinic: '⚕️', custom: '🏪', tavern: '🍺', bakery: '🍞', smithy: '⚒️', apothecary: '⚗️', school: '📚', shop: '🛒' };
@@ -9,9 +9,11 @@ export const BIZ_COLORS = { clinic: ['#e8e2d6', '#9a3b3b'], bakery: ['#d9a86c', 
 
 // r = the place's rectangle on screen: { x, y, w, h, k } (k = zoom).
 export function building({ x, y, w, h, k }, wall, roof) {
-  ctx.fillStyle = 'rgba(0,0,0,0.18)'; roundRect(x + 4 * k, y + 5 * k, w, h, 4 * k); ctx.fill();
-  ctx.fillStyle = wall; roundRect(x, y, w, h, 4 * k); ctx.fill();
-  ctx.fillStyle = roof; roundRect(x, y, w, h * 0.42, 4 * k); ctx.fill();
+  ctx.fillStyle = 'rgba(20,30,15,0.28)'; roundRect(x + 3 * k, y + 6 * k, w, h, 5 * k); ctx.fill();
+  ctx.fillStyle = wall; roundRect(x, y, w, h, 5 * k); ctx.fill();
+  ctx.fillStyle = 'rgba(0,0,0,0.12)'; ctx.fillRect(x, y + h * 0.42, w, 3 * k); // eave shadow
+  ctx.fillStyle = roof; roundRect(x, y, w, h * 0.42, [5 * k, 5 * k, 2 * k, 2 * k]); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,0.14)'; ctx.fillRect(x + 4 * k, y + h * 0.2, w - 8 * k, 1.5 * k); // ridge highlight
 }
 
 // Buildings get walls and a roof; open ground is drawn by ./terrain.js.
@@ -56,13 +58,15 @@ export function drawPlace(p, i) {
 }
 
 export function drawLabel(p) {
+  if (view.scale < 0.45 && !['square', 'tavern', 'market', 'hall'].includes(p.type)) return; // too small to read
   const [x, y] = S(p.x + p.w / 2, p.y + p.h);
-  ctx.font = '600 11px system-ui, sans-serif';
+  ctx.font = `600 11px ${FONT}`;
   ctx.textAlign = 'center';
   const tw = ctx.measureText(p.name).width;
-  const ly = p.type === 'river' ? S(0, 350)[1] : y + 13;
-  ctx.fillStyle = 'rgba(20,24,20,0.55)';
-  roundRect(x - tw / 2 - 5, ly - 11, tw + 10, 15, 7); ctx.fill();
+  const ly = p.type === 'river' ? S(0, 350)[1] : y + 14;
+  ctx.fillStyle = 'rgba(16,20,16,0.62)';
+  roundRect(x - tw / 2 - 7, ly - 12, tw + 14, 17, 8.5); ctx.fill();
+  view.labels.push({ x: x - tw / 2 - 7, y: ly - 12, w: tw + 14, h: 17 });
   ctx.fillStyle = '#f4efe2';
   ctx.fillText(p.name, x, ly);
 }

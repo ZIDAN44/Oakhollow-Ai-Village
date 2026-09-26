@@ -1,0 +1,56 @@
+/* The Chronicle timeline, the Voices feed and the event toasts on the map. */
+#log { list-style: none; padding: 0; margin: 0; font-size: 12.5px; }
+#log li {
+  --k: var(--line);
+  display: grid; grid-template-columns: 58px 10px 1fr; gap: var(--s2); align-items: baseline;
+  padding: 6px var(--s2); border-radius: var(--r-sm); color: var(--text-2);
+}
+#log li:hover { background: var(--surface-2); }
+#log li::before { content: ''; grid-column: 2; grid-row: 1; width: 6px; height: 6px; border-radius: 50%; background: var(--k); align-self: center; }
+#log time { grid-column: 1; grid-row: 1; color: var(--muted); font-size: var(--fs-xs); font-variant-numeric: tabular-nums; }
+#log li > span:last-child { grid-column: 3; grid-row: 1; }
+#log li > .dot { display: none; }
+#log li.life { --k: var(--k-life); color: var(--k-life); }
+#log li.event { --k: var(--k-event); color: var(--k-event); }
+#log li.crime { --k: var(--k-crime); color: var(--k-crime); }
+#log li.voice { --k: var(--k-voice); color: var(--k-voice); }
+#log li.invent { --k: var(--k-invent); color: var(--k-invent); }
+#log li.promise { --k: var(--k-promise); color: var(--k-promise); }
+#log li.god { --k: var(--k-god); color: var(--k-god); }
+#log li.speech { color: var(--text-2); }
+#log li.error { --k: var(--bad); color: var(--bad); }
+
+#voices { list-style: none; padding: 0; margin: 0; }
+#voices li {
+  padding: var(--s3) var(--s4); margin-bottom: var(--s2); border-radius: var(--r-lg);
+  background: linear-gradient(160deg, oklch(78% 0.1 295 / 0.1), transparent 60%), var(--surface-2);
+  border: 1px solid oklch(78% 0.1 295 / 0.2);
+}
+#voices li.muted { background: none; border: 1px dashed var(--line); text-align: center; }
+#voices li > div:first-child { display: flex; align-items: center; gap: var(--s2); }
+#voices time { color: var(--muted); font-size: var(--fs-xs); margin-left: auto; }
+#voices .vtext { margin: var(--s2) 0; font: italic 15px/1.45 var(--font-display); color: oklch(88% 0.06 295); }
+
+/* Toasts: important news pops up over the map, then fades. */
+.toasts {
+  position: absolute; top: var(--s4); left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: var(--s2);
+  width: min(460px, calc(100% - 2 * var(--s4))); pointer-events: none; z-index: 1;
+}
+.toast {
+  --k: var(--accent);
+  pointer-events: auto; cursor: pointer; width: 100%;
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 14px; border-radius: var(--r-md); font-size: 13px; line-height: 1.4;
+  border-left: 3px solid var(--k);
+  animation: toast-in 320ms var(--ease);
+}
+.toast .kind { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--k); white-space: nowrap; padding-top: 2px; }
+.toast.leaving { animation: toast-out 260ms var(--ease) forwards; }
+.toast.life { --k: var(--k-life); }
+.toast.crime { --k: var(--k-crime); }
+.toast.invent { --k: var(--k-invent); }
+.toast.voice { --k: var(--k-voice); }
+.toast.god { --k: var(--k-god); }
+@keyframes toast-in { from { opacity: 0; transform: translateY(-10px) scale(0.97); } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(-6px) scale(0.97); } }

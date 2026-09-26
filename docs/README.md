@@ -14,6 +14,7 @@ guide, reference or explanation, and doesn't mix them.
 ## Reference
 
 - [Configuration](reference/configuration.md): environment variables, URL options, commands, HTTP API.
+- [Controls](reference/controls.md): mouse and keyboard controls for the map.
 - [Architecture](reference/architecture.md): folders, layers and rules.
 - [Effect types](reference/effects.md): the building blocks of inventions. Generated.
 - [Verbs](reference/verbs.md): every action type. Generated.

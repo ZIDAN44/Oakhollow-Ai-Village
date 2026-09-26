@@ -3,29 +3,51 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
   <title>Oakhollow</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/controls.css">
+  <link rel="stylesheet" href="styles/panels.css">
+  <link rel="stylesheet" href="styles/feeds.css">
 </head>
 <body>
-  <header>
-    <h1>Oakhollow</h1>
-    <span id="clock"></span>
-    <div class="speed">
-      <button data-speed="pause">⏸</button>
-      <button data-speed="1">1×</button>
-      <button data-speed="2">2×</button>
-      <button data-speed="4">4×</button>
-      <button data-speed="8">8×</button>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c-3 3-7 5-7 10a7 7 0 0 0 6 6.9V22h2v-3.1A7 7 0 0 0 19 12c0-5-4-7-7-10Z"/></svg>
+      <h1>Oakhollow</h1>
     </div>
-    <span id="mode" class="badge"></span>
-    <span id="stats" class="muted"></span>
+    <div class="timebar">
+      <span id="clock" class="clock"></span>
+      <div class="speed segmented" role="group" aria-label="Speed">
+        <button data-speed="pause" title="Pause / play (Space)" aria-label="Pause or play">⏸</button>
+        <button data-speed="1" title="1× (key 1)">1×</button>
+        <button data-speed="2" title="2× (key 2)">2×</button>
+        <button data-speed="4" title="4× (key 3)">4×</button>
+        <button data-speed="8" title="8× (key 4)">8×</button>
+      </div>
+    </div>
+    <div class="status-group">
+      <span id="mode" class="badge"></span>
+      <span id="stats" class="muted small"></span>
+    </div>
   </header>
 
   <main>
-    <div class="stage"><canvas id="world"></canvas></div>
+    <div class="stage">
+      <canvas id="world" aria-label="Map of Oakhollow"></canvas>
+      <div id="toasts" class="toasts" aria-live="polite"></div>
+      <div class="map-hud" role="group" aria-label="Map view">
+        <button id="zoomIn" title="Zoom in (+)" aria-label="Zoom in">+</button>
+        <button id="zoomOut" title="Zoom out (−)" aria-label="Zoom out">−</button>
+        <button id="zoomFit" title="Show the whole village (0)" aria-label="Show the whole village">⤢</button>
+        <button id="followBtn" title="Follow the selected villager (F)" aria-label="Follow the selected villager">◎</button>
+      </div>
+      <p class="map-hint"><kbd>Scroll</kbd> zoom · <kbd>Drag</kbd> pan · <kbd>F</kbd> follow · <kbd>Space</kbd> pause · <kbd>Esc</kbd> deselect</p>
+    </div>
 
-    <aside>
-      <nav>
+    <aside class="sidebar">
+      <nav class="tabs" role="tablist">
         <button class="tab active" data-tab="people">People</button>
         <button class="tab" data-tab="village">Village</button>
         <button class="tab" data-tab="log">Chronicle</button>
@@ -66,89 +88,104 @@
           Running on the offline brain. Put your key in <code>.env</code> and restart the server to let Jev drive everyone.
         </p>
 
-        <h4>Make something happen</h4>
-        <textarea id="eventText" rows="2" placeholder="e.g. A fire breaks out at the tavern!"></textarea>
-        <div class="presets">
-          <button data-event="A fire breaks out at The Crooked Mug Tavern!">🔥 Fire</button>
-          <button data-event="A royal messenger arrives, looking for a runaway noblewoman named Seraphine Valcourt. There is a 30 coin reward.">📜 Messenger</button>
-          <button data-event="Bandits were seen on the Eastern Road. They may raid the village tonight.">🗡️ Bandits</button>
-          <button data-event="The ground rumbles. A crack opens in the Old Ruins and blue light pours out.">🔵 Ruins crack</button>
-          <button data-event="A travelling merchant is paying double for food and wood at the Market today.">💰 Merchant</button>
-          <button data-event="A shooting star crosses the sky. Some say it grants wishes.">🌠 Omen</button>
-        </div>
-        <button id="eventBtn" class="primary">Announce to the world</button>
-        <div class="row wrap">
-          <button id="storyBtn">🎲 Surprise me</button>
-          <button id="electionBtn">🗳️ Force an election</button>
-        </div>
-        <div class="row wrap">
-          <button data-weather="clear">☀️</button>
-          <button data-weather="cloudy">☁️</button>
-          <button data-weather="rain">🌧️</button>
-          <button data-weather="storm">⛈️</button>
-          <button data-weather="fog">🌫️</button>
-        </div>
+        <details class="card" open>
+          <summary>Make something happen</summary>
+          <textarea id="eventText" rows="2" placeholder="e.g. A fire breaks out at the tavern!"></textarea>
+          <div class="presets">
+            <button data-event="A fire breaks out at The Crooked Mug Tavern!">🔥 Fire</button>
+            <button data-event="A royal messenger arrives, looking for a runaway noblewoman named Seraphine Valcourt. There is a 30 coin reward.">📜 Messenger</button>
+            <button data-event="Bandits were seen on the Eastern Road. They may raid the village tonight.">🗡️ Bandits</button>
+            <button data-event="The ground rumbles. A crack opens in the Old Ruins and blue light pours out.">🔵 Ruins crack</button>
+            <button data-event="A travelling merchant is paying double for food and wood at the Market today.">💰 Merchant</button>
+            <button data-event="A shooting star crosses the sky. Some say it grants wishes.">🌠 Omen</button>
+          </div>
+          <button id="eventBtn" class="primary block">Announce to the world</button>
+          <div class="row wrap">
+            <button id="storyBtn">🎲 Surprise me</button>
+            <button id="electionBtn">🗳️ Force an election</button>
+          </div>
+          <div class="label">Weather</div>
+          <div class="segmented weather">
+            <button data-weather="clear" title="Clear">☀️</button>
+            <button data-weather="cloudy" title="Cloudy">☁️</button>
+            <button data-weather="rain" title="Rain">🌧️</button>
+            <button data-weather="storm" title="Storm">⛈️</button>
+            <button data-weather="fog" title="Fog">🌫️</button>
+          </div>
+        </details>
 
-        <h4>Add a villager</h4>
-        <div class="grid2">
-          <input id="spName" placeholder="Name">
-          <input id="spAge" placeholder="Age" type="number">
-        </div>
-        <input id="spRole" placeholder="Role (e.g. blacksmith, thief, priest)">
-        <div class="grid2">
-          <select id="spGender"><option value="woman">Woman</option><option value="man">Man</option><option value="nonbinary">Nonbinary</option></select>
-          <select id="spPronouns"><option value="she">she/her</option><option value="he">he/him</option><option value="they">they/them</option></select>
-        </div>
-        <div class="small attract">Attracted to:
-          <label><input type="checkbox" class="spAttr" value="woman"> women</label>
-          <label><input type="checkbox" class="spAttr" value="man" checked> men</label>
-          <label><input type="checkbox" class="spAttr" value="nonbinary"> nonbinary people</label>
-        </div>
-        <select id="spBody"><option value="carry">Can become pregnant</option><option value="sire">Can get others pregnant</option><option value="neither">Neither</option></select>
-        <input id="spPersonality" placeholder="Personality">
-        <input id="spGoal" placeholder="Goal">
-        <input id="spSecret" placeholder="Secret, in first person (optional)">
-        <input id="spDream" placeholder="Dream, e.g. 'opening my own bakery'">
-        <button id="spawnBtn" class="primary">Arrive by the Eastern Road</button>
+        <details class="card">
+          <summary>Add a villager</summary>
+          <div class="grid2">
+            <input id="spName" placeholder="Name">
+            <input id="spAge" placeholder="Age" type="number">
+          </div>
+          <input id="spRole" placeholder="Role (e.g. blacksmith, thief, priest)">
+          <div class="grid2">
+            <select id="spGender"><option value="woman">Woman</option><option value="man">Man</option><option value="nonbinary">Nonbinary</option></select>
+            <select id="spPronouns"><option value="she">she/her</option><option value="he">he/him</option><option value="they">they/them</option></select>
+          </div>
+          <div class="small attract">Attracted to:
+            <label><input type="checkbox" class="spAttr" value="woman"> women</label>
+            <label><input type="checkbox" class="spAttr" value="man" checked> men</label>
+            <label><input type="checkbox" class="spAttr" value="nonbinary"> nonbinary people</label>
+          </div>
+          <select id="spBody"><option value="carry">Can become pregnant</option><option value="sire">Can get others pregnant</option><option value="neither">Neither</option></select>
+          <input id="spPersonality" placeholder="Personality">
+          <input id="spGoal" placeholder="Goal">
+          <input id="spSecret" placeholder="Secret, in first person (optional)">
+          <input id="spDream" placeholder="Dream, e.g. 'opening my own bakery'">
+          <button id="spawnBtn" class="primary block">Arrive by the Eastern Road</button>
+        </details>
 
-        <h4>Add a problem to solve</h4>
-        <input id="probTitle" placeholder="e.g. Rebuild the old mill">
-        <input id="probDesc" placeholder="What's wrong?">
-        <div class="grid2"><select id="probPlace"></select><select id="probSkill"></select></div>
-        <button id="probBtn">Add problem</button>
+        <details class="card">
+          <summary>Add a problem to solve</summary>
+          <input id="probTitle" placeholder="e.g. Rebuild the old mill">
+          <input id="probDesc" placeholder="What's wrong?">
+          <div class="grid2"><select id="probPlace"></select><select id="probSkill"></select></div>
+          <button id="probBtn" class="block">Add problem</button>
+        </details>
 
-        <h4>Add a new possibility</h4>
-        <p class="muted small">Something anyone could choose to do. The text model designs real effects for it; Jev decides who, when and whether.</p>
-        <input id="actLabel" placeholder="Option, e.g. 'Write a love letter'">
-        <input id="actText" placeholder="What it looks like, e.g. 'writes a love letter by candlelight'">
-        <select id="actWhere"></select>
-        <button id="actBtn">Add possibility</button>
-        <ul id="actList" class="small"></ul>
+        <details class="card">
+          <summary>Add a new possibility</summary>
+          <p class="muted small">Something anyone could choose to do. The text model designs real effects for it; Jev decides who, when and whether.</p>
+          <input id="actLabel" placeholder="Option, e.g. 'Write a love letter'">
+          <input id="actText" placeholder="What it looks like, e.g. 'writes a love letter by candlelight'">
+          <select id="actWhere"></select>
+          <button id="actBtn" class="block">Add possibility</button>
+          <ul id="actList" class="small"></ul>
+        </details>
 
-        <h4>Rules of life</h4>
-        <label class="check"><input type="checkbox" id="set-mortality"> People can die</label>
-        <label class="check"><input type="checkbox" id="set-births"> Babies can be born</label>
-        <label class="check"><input type="checkbox" id="set-arrivals"> Strangers arrive</label>
-        <label class="check"><input type="checkbox" id="set-storyteller"> Storyteller stirs up events</label>
-        <label class="check">Pace of life
-          <select id="set-lifeSpeed" style="width:auto">
-            <option value="1">Realistic (1 life-year per calendar year)</option>
-            <option value="4">Brisk (4 life-years per year)</option>
-            <option value="8">Fast (8 life-years per year)</option>
-            <option value="16">Generations (16 life-years per year)</option>
-          </select>
-        </label>
+        <details class="card">
+          <summary>Rules of life</summary>
+          <label class="check"><input type="checkbox" id="set-mortality"> People can die</label>
+          <label class="check"><input type="checkbox" id="set-births"> Babies can be born</label>
+          <label class="check"><input type="checkbox" id="set-arrivals"> Strangers arrive</label>
+          <label class="check"><input type="checkbox" id="set-storyteller"> Storyteller stirs up events</label>
+          <label class="stack">Pace of life
+            <select id="set-lifeSpeed">
+              <option value="1">Realistic (1 life-year per calendar year)</option>
+              <option value="4">Brisk (4 life-years per year)</option>
+              <option value="8">Fast (8 life-years per year)</option>
+              <option value="16">Generations (16 life-years per year)</option>
+            </select>
+          </label>
+        </details>
 
-        <h4>World lore</h4>
-        <textarea id="lore" rows="7"></textarea>
-        <button id="loreBtn">Rewrite the world</button>
+        <details class="card">
+          <summary>World lore</summary>
+          <textarea id="lore" rows="7"></textarea>
+          <button id="loreBtn" class="block">Rewrite the world</button>
+        </details>
 
-        <h4>World</h4>
-        <div class="row">
-          <button id="saveBtn">💾 Save</button>
-          <button id="loadBtn">📂 Load</button>
-          <button id="resetBtn">↺ New world</button>
-        </div>
+        <details class="card" open>
+          <summary>World</summary>
+          <div class="row">
+            <button id="saveBtn">💾 Save</button>
+            <button id="loadBtn">📂 Load</button>
+            <button id="resetBtn" class="danger">↺ New world</button>
+          </div>
+        </details>
       </section>
     </aside>
   </main>

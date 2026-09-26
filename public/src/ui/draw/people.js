@@ -1,104 +1,33 @@
-// Drawing people and their speech bubbles.
+// Drawing people: bodies, status icons, the route of the selected person, and decluttered name tags.
 import { sim } from '../../core/state.js';
-import { S, ctx, roundRect, view } from '../canvas.js';
+import { FONT, S, ctx, roundRect, view } from '../canvas.js';
 
-export function wrap(text, maxW) {
-  const words = text.split(' ');
-  const lines = [];
-  let line = '';
-  for (const w of words) {
-    const test = line ? line + ' ' + w : w;
-    if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; } else line = test;
-  }
-  if (line) lines.push(line);
-  return lines.slice(0, 4);
-}
-
-export const BUBBLE = {
-  speech: ['rgba(255,255,255,0.96)', '#26221d'],
-  action: ['rgba(255,244,214,0.95)', '#26221d'],
-  fight: ['rgba(255,210,200,0.97)', '#5a1010'],
-  voice: ['rgba(215,200,255,0.97)', '#2a1850'],
+const radiusOf = npc => {
+  const base = npc.age < 4 ? 5 : npc.age < 16 ? 7.5 : 10;
+  return Math.max(npc.age < 16 ? 5 : 7, base * view.scale);
 };
-
-// Lay out every visible bubble so none overlap: each starts above its speaker and is
-// pushed upward past any bubble already placed. A pointer line links it back to the speaker.
-export function drawBubbles() {
-  const now = performance.now();
-  const items = [];
-  for (const npc of sim.npcs) {
-    const b = npc.bubble;
-    if (!b) continue;
-    if (now > b.until) { npc.bubble = null; continue; }
-    const [x, y] = S(npc.x, npc.y);
-    ctx.font = b.style === 'speech' ? '12px system-ui, sans-serif' : 'italic 12px system-ui, sans-serif';
-    const lines = wrap(b.text, 180);
-    const w = Math.max(...lines.map(l => ctx.measureText(l).width)) + 16;
-    const h = lines.length * 15 + 14;
-    items.push({ npc, b, x, y, lines, w, h, bx: Math.min(Math.max(x - w / 2, 4), view.w - w - 4), by: y - 26 - h });
-  }
-  // Place each bubble at the free spot closest to its speaker: above first, then beside, then below.
-  items.sort((a, b) => b.y - a.y);
-  const placed = [];
-  const overlaps = (x, y, w, h) => placed.some(p => x < p.bx + p.w + 4 && x + w + 4 > p.bx && y < p.by + p.h + 4 && y + h + 4 > p.by);
-  for (const it of items) {
-    const bx0 = it.bx, by0 = it.by;
-    const cands = [];
-    for (const dx of [0, -(it.w * 0.6 + 6), it.w * 0.6 + 6, -(it.w + 10), it.w + 10]) {
-      for (let dy = 0; dy <= 260; dy += 8) cands.push([bx0 + dx, by0 - dy, Math.abs(dx) + dy * 1.3]);
-      cands.push([bx0 + dx, it.y + 22, Math.abs(dx) + 60]); // below the speaker
-    }
-    cands.sort((a, b) => a[2] - b[2]);
-    const spot = cands.find(([x, y]) => x >= 2 && x + it.w <= view.w - 2 && y >= 2 && y + it.h <= view.h - 2 && !overlaps(x, y, it.w, it.h));
-    if (spot) { it.bx = spot[0]; it.by = spot[1]; }
-    placed.push(it);
-  }
-  // Pointer lines first, so bubbles sit on top of them.
-  for (const it of placed) {
-    const below = it.by > it.y;
-    const ax = Math.min(Math.max(it.x, it.bx + 10), it.bx + it.w - 10);
-    const ay = below ? it.by : it.by + it.h;
-    if (Math.hypot(ax - it.x, ay - (it.y - 12)) > 18) {
-      ctx.strokeStyle = it.npc.color; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.8;
-      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(it.x, below ? it.y + 10 : it.y - 12); ctx.stroke();
-      ctx.globalAlpha = 1;
-    }
-  }
-  for (const it of placed) {
-    const [bg, fg] = BUBBLE[it.b.style] || BUBBLE.speech;
-    ctx.strokeStyle = it.npc.color; ctx.lineWidth = 1.5;
-    ctx.fillStyle = bg;
-    roundRect(it.bx, it.by, it.w, it.h, 8); ctx.fill(); ctx.stroke();
-    ctx.font = it.b.style === 'speech' ? '12px system-ui, sans-serif' : 'italic 12px system-ui, sans-serif';
-    ctx.fillStyle = fg; ctx.textAlign = 'left';
-    it.lines.forEach((l, i) => ctx.fillText(l, it.bx + 8, it.by + 21 + i * 15));
-    // Name tag on the bubble so you know who's talking even in a crowd.
-    ctx.font = '600 9px system-ui, sans-serif'; ctx.fillStyle = it.npc.color;
-    ctx.fillText(it.npc.name, it.bx + 8, it.by + 7.5);
-  }
-}
 
 export function drawNpc(npc) {
   const [x, y] = S(npc.x, npc.y);
-  const base = npc.age < 4 ? 5 : npc.age < 16 ? 7.5 : 10;
-  const r = Math.max(npc.age < 16 ? 5 : 7, base * view.scale);
+  const r = radiusOf(npc);
   const sel = sim.selected === npc;
   if (sel) drawRoute(npc, x, y);
   drawBody(npc, x, y, r, sel);
-  drawNameTag(npc, x, y, r);
   const icon = statusIcon(npc);
-  if (icon) { ctx.font = '13px sans-serif'; ctx.fillText(icon, x + r + 6, y - r); }
+  if (icon) { ctx.font = `${Math.round(11 + r * 0.3)}px sans-serif`; ctx.textAlign = 'center'; ctx.fillText(icon, x + r + 5, y - r + 2); }
   drawPartnerHeart(npc, x, y, r);
 }
 
-// A dashed line to where the selected person is walking.
+// A dashed line to where the selected person is walking, with a marker at the end.
 function drawRoute(npc, x, y) {
   if (npc.action?.type !== 'move' && npc.action?.type !== 'leaving') return;
   const tgt = npc.action.person ? sim.findNpc(npc.action.person) : { x: npc.action.dx, y: npc.action.dy };
   if (!tgt) return;
   const [tx, ty] = S(tgt.x, tgt.y);
-  ctx.setLineDash([4, 5]); ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 1.5;
+  ctx.setLineDash([5, 6]); ctx.lineDashOffset = -performance.now() / 60;
+  ctx.strokeStyle = 'rgba(255,255,255,0.8)'; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(tx, ty); ctx.stroke(); ctx.setLineDash([]);
+  ring(tx, ty, 5, 'rgba(255,255,255,0.9)', 2);
 }
 
 function ring(x, y, radius, color, width) {
@@ -106,22 +35,59 @@ function ring(x, y, radius, color, width) {
 }
 
 function drawBody(npc, x, y, r, sel) {
-  ctx.fillStyle = 'rgba(0,0,0,0.25)'; ctx.beginPath(); ctx.ellipse(x, y + r * 0.9, r, r * 0.4, 0, 0, Math.PI * 2); ctx.fill();
-  if (sel) ring(x, y, r + 4, '#fff', 3);
-  if (npc.name === sim.leader) ring(x, y, r + 2, '#ffd35c', 2);
-  ctx.fillStyle = npc.color; ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.lineWidth = 1.5;
+  ctx.fillStyle = 'rgba(0,0,0,0.28)'; ctx.beginPath(); ctx.ellipse(x, y + r * 0.95, r * 0.95, r * 0.38, 0, 0, Math.PI * 2); ctx.fill();
+  if (sel) {
+    const pulse = (performance.now() / 1400) % 1;
+    ring(x, y, r + 4 + pulse * 10, `rgba(255,255,255,${0.7 * (1 - pulse)})`, 2);
+    ring(x, y, r + 4, '#fff', 2.5);
+  } else if (view.hover === npc) ring(x, y, r + 3.5, 'rgba(255,255,255,0.7)', 2);
+  if (npc.name === sim.leader) ring(x, y, r + 1.5, '#ffd35c', 2);
+  const g = ctx.createRadialGradient(x - r * 0.35, y - r * 0.4, r * 0.1, x, y, r);
+  g.addColorStop(0, 'rgba(255,255,255,0.45)'); g.addColorStop(0.45, 'rgba(255,255,255,0)');
   ctx.globalAlpha = npc.role === 'ancient spirit' ? 0.6 + 0.3 * Math.sin(performance.now() / 400) : 1;
-  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = npc.color; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = g; ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.lineWidth = 1.5; ctx.stroke();
   ctx.globalAlpha = 1;
+  ctx.fillStyle = '#fff'; ctx.font = `700 ${Math.round(r * 1.05)}px ${FONT}`; ctx.textAlign = 'center';
+  ctx.fillText(npc.name[0], x, y + r * 0.37);
 }
 
-function drawNameTag(npc, x, y, r) {
-  ctx.fillStyle = '#fff'; ctx.font = `700 ${Math.round(r * 1.1)}px system-ui, sans-serif`; ctx.textAlign = 'center';
-  ctx.fillText(npc.name[0], x, y + r * 0.38);
-  ctx.font = `600 ${npc.age < 16 ? 10 : 11}px system-ui, sans-serif`;
-  ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillText(npc.name, x + 1, y + r + 14);
-  ctx.fillStyle = '#fff'; ctx.fillText(npc.name, x, y + r + 13);
+// ------------------------------------------------------------------ Name tags
+
+// Greedy label placement: the selected and hovered person first, then top to bottom. Each tag tries
+// below, right, left and above its person and takes the first spot that overlaps nothing drawn yet
+// (place labels included); failing that, the first spot clear of other name tags.
+// A tag with no spot at all is left out; the initial on the body still says who it is.
+export function drawNameTags(people) {
+  const order = [...people].sort((a, b) => priority(b) - priority(a));
+  const placed = [];
+  const hits = (a, boxes) => boxes.some(b => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y);
+  for (const npc of order) {
+    const [x, y] = S(npc.x, npc.y);
+    const r = radiusOf(npc);
+    ctx.font = `600 ${npc.age < 16 ? 10 : 11}px ${FONT}`;
+    const w = ctx.measureText(npc.name).width + 12, h = 16;
+    const spots = [[x - w / 2, y + r + 4], [x + r + 4, y - h / 2], [x - r - 4 - w, y - h / 2], [x - w / 2, y - r - 6 - h]];
+    const boxes = spots.map(([bx, by]) => ({ x: bx, y: by, w, h }));
+    const box = boxes.find(b => !hits(b, placed) && !hits(b, view.labels)) || boxes.find(b => !hits(b, placed));
+    if (!box) continue;
+    placed.push(box);
+    drawTag(npc, box);
+  }
 }
+
+const priority = npc => (sim.selected === npc ? 3 : view.hover === npc ? 2 : 0) - npc.y / 10000;
+
+function drawTag(npc, { x, y, w, h }) {
+  const strong = sim.selected === npc || view.hover === npc;
+  ctx.fillStyle = strong ? 'rgba(255,255,255,0.95)' : 'rgba(18,22,18,0.72)';
+  roundRect(x, y, w, h, h / 2); ctx.fill();
+  ctx.fillStyle = strong ? '#1b1f1a' : '#fff'; ctx.textAlign = 'center';
+  ctx.fillText(npc.name, x + w / 2, y + h / 2 + 4);
+}
+
+// ------------------------------------------------------------------ Status
 
 // The first matching status wins.
 const STATUS_ICONS = [
@@ -143,5 +109,5 @@ function drawPartnerHeart(npc, x, y, r) {
   const p = sim.findNpc(npc.partner);
   if (!p || npc.name >= p.name || sim.dist(npc, p) >= 50) return;
   const [px, py] = S(p.x, p.y);
-  ctx.font = '11px sans-serif'; ctx.fillText(npc.spouse ? '💍' : '❤️', (x + px) / 2, (y + py) / 2 - r - 4);
+  ctx.font = '11px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(npc.spouse ? '💍' : '❤️', (x + px) / 2, (y + py) / 2 - r - 4);
 }

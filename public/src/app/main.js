@@ -4,13 +4,15 @@ import '../actions/index.js'; // registers every verb
 import { GAME_MIN_PER_SEC, step, worldEvent } from './loop.js';
 import { load, reset, save } from './save.js';
 import { sim } from '../core/state.js';
-import { canvas, npcAt, resize } from '../ui/canvas.js';
+import { canvas, resize } from '../ui/canvas.js';
+import { syncHud, wireMap } from '../ui/map-input.js';
 import { renderLog, renderTop, renderVoices } from '../ui/panels/feeds.js';
 import { initUI } from '../ui/panels/god.js';
 import { renderInspector, renderRoster } from '../ui/panels/people.js';
 import { renderVillage } from '../ui/panels/village.js';
 import { render } from '../ui/render.js';
-import { refreshAll, select, showTab, updateSpeedButtons } from '../ui/tabs.js';
+import { renderToasts } from '../ui/toasts.js';
+import { refreshAll, updateSpeedButtons } from '../ui/tabs.js';
 import { resetWorld } from '../world/setup.js';
 
 // ------------------------------------------------------------------ Boot
@@ -35,12 +37,7 @@ export async function boot() {
   new ResizeObserver(resize).observe(canvas.parentElement); // e.g. when a scrollbar appears
   updateSpeedButtons();
 
-  canvas.addEventListener('click', e => {
-    const r = canvas.getBoundingClientRect();
-    const n = npcAt(e.clientX - r.left, e.clientY - r.top);
-    select(n);
-    if (n) showTab('people');
-  });
+  wireMap();
 
   let last = performance.now();
   setInterval(() => {
@@ -54,7 +51,7 @@ export async function boot() {
 
   let rosterCount = 0;
   setInterval(() => {
-    renderTop(); renderLog(); renderInspector(false); renderVoices();
+    renderTop(); renderLog(); renderInspector(false); renderVoices(); renderToasts(); syncHud();
     if (sim.npcs.length !== rosterCount) { rosterCount = sim.npcs.length; renderRoster(); }
   }, 400);
   setInterval(renderVillage, 1000);

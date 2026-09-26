@@ -21,7 +21,7 @@ export function renderVoices() {
   if (ui.voicesSeen === sim.voiceMessages.length && $('voices').children.length) return;
   ui.voicesSeen = sim.voiceMessages.length;
   $('voices').innerHTML = sim.voiceMessages.slice().reverse().map((m, i) => `
-    <li><div><span class="dot" style="background:${m.color}"></span><b>${esc(m.from)}</b> <time>${m.time}</time></div>
+    <li><div><span class="avatar" style="--c:${m.color}">${esc(m.from[0])}</span><b>${esc(m.from)}</b> <time>${m.time}</time></div>
     <div class="vtext">"${esc(m.text)}"</div><button class="link" data-reply="${esc(m.from)}">Answer ${esc(m.from)}</button></li>`).join('')
     || '<li class="muted">Nobody has spoken to you yet. Whisper to someone and see what happens...</li>';
   $('voices').querySelectorAll('[data-reply]').forEach(b => b.addEventListener('click', () => {

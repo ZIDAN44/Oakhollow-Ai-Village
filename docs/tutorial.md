@@ -12,6 +12,8 @@ Open http://localhost:3000/?offline. `?offline` uses the built-in brain, so noth
 
 The map shows six villagers. At 1× speed, one game minute passes every half second, so a game day
 lasts 12 real minutes. The buttons at the top set the speed: pause, 1×, 2×, 4× and 8×.
+Scroll to zoom and drag to pan the map. The full list of controls is in
+[Configuration](reference/controls.md).
 
 ## 2. Follow one person
 
@@ -19,6 +21,10 @@ lasts 12 real minutes. The buttons at the top set the speed: pause, 1×, 2×, 4�
 2. The inspector shows their needs, skills, belongings, relationships and recent memories.
 3. Hover a relationship to see the reasons behind it, for example "shared a drink with me +5".
 4. A dashed line on the map shows where they are walking.
+5. Press `F` to follow them with the camera. Press it again, or drag the map, to stop.
+
+Important news, such as a birth, a crime or an event you announce, also pops up briefly at the top of the
+map. Click it to open the **Chronicle**.
 
 ## 3. Read what happened
 
