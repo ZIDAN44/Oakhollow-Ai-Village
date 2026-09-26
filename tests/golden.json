@@ -1,0 +1,587 @@
+{
+ "1": {
+  "time": 3360,
+  "people": [
+   [
+    "Mira",
+    28,
+    150,
+    664,
+    100,
+    52,
+    "food17,coins3",
+    "do",
+    120
+   ],
+   [
+    "Tobias",
+    45,
+    101,
+    677,
+    100,
+    30,
+    "food5,coins57",
+    "do",
+    120
+   ],
+   [
+    "Elena",
+    34,
+    1105,
+    171,
+    100,
+    59,
+    "coins14,herbs2,remedy1",
+    "move",
+    120
+   ],
+   [
+    "Bram",
+    52,
+    412,
+    314,
+    100,
+    22,
+    "wood14,coins11,herbs1,tool3",
+    "do",
+    120
+   ],
+   [
+    "Sera",
+    20,
+    130,
+    654,
+    100,
+    40,
+    "food8",
+    "-",
+    120
+   ],
+   [
+    "Hugo",
+    79,
+    791,
+    408,
+    100,
+    58,
+    "coins6",
+    "move",
+    120
+   ],
+   [
+    "Garrick",
+    39,
+    95,
+    635,
+    100,
+    28,
+    "coins1",
+    "talk",
+    120
+   ]
+  ],
+  "dead": [],
+  "places": [
+   [
+    "Whisperwood Forest",
+    100,
+    60
+   ],
+   [
+    "River",
+    100,
+    20
+   ],
+   [
+    "Hale Farm",
+    100,
+    50
+   ],
+   [
+    "Common Fields",
+    100,
+    45
+   ],
+   [
+    "Village Hall",
+    100,
+    null
+   ],
+   [
+    "Village Square",
+    100,
+    null
+   ],
+   [
+    "Village Well",
+    100,
+    null
+   ],
+   [
+    "The Crooked Mug Tavern",
+    100,
+    null
+   ],
+   [
+    "Market",
+    100,
+    null
+   ],
+   [
+    "Old Ruins",
+    100,
+    null
+   ],
+   [
+    "Graveyard",
+    100,
+    null
+   ],
+   [
+    "Eastern Road",
+    100,
+    null
+   ],
+   [
+    "Mira's House",
+    100,
+    null
+   ],
+   [
+    "Elena's House",
+    100,
+    null
+   ],
+   [
+    "Bram's Cabin",
+    100,
+    null
+   ],
+   [
+    "Hugo's Cottage",
+    100,
+    null
+   ]
+  ],
+  "log": 287,
+  "lastLog": [
+   "Sera → Tobias: \"Busy day, Tobias? ♪\"",
+   "Garrick → Tobias: \"Tobias, what do you know about the lights at the ruins?\"",
+   "Sera → everyone: \"Ooh, join me at the square later, friends?\"",
+   "Garrick → Sera: \"Walk with me a while, Sera?\"",
+   "Sera → Garrick: \"What have you been up to, Garrick? ♪\"",
+   "Garrick → Tobias: \"Well, if it isn't Tobias!\"",
+   "Sera → Garrick: \"Ooh, walk with me sometime, Garrick? I'd like that.\"",
+   "Bram carves and binds a sturdy tool.",
+   "Garrick → everyone: \"Until next time, friends.\"",
+   "Sera → Garrick: \"You don't have to carry it all alone, Garrick. ♪\"",
+   "Garrick → Sera: \"I don't think so, Sera.\"",
+   "Sera → Garrick: \"Oh! Say what you like, Mira has been good to me.\"",
+   "Garrick → everyone: \"Morning to you, friends.\"",
+   "Sera → everyone: \"Why did the ghost skip the festival, friends? No body to go with.\"",
+   "Garrick → Tobias: \"Have you seen those blue lights at the Old Ruins, Tobias?\""
+  ],
+  "problems": [
+   [
+    "The mystery of the blue lights",
+    77,
+    false
+   ],
+   [
+    "Prepare the harvest festival",
+    100,
+    true
+   ]
+  ],
+  "inventions": [],
+  "gatherings": 0,
+  "promises": 0,
+  "leader": "Hugo"
+ },
+ "7": {
+  "time": 3360,
+  "people": [
+   [
+    "Mira",
+    27,
+    927,
+    357,
+    100,
+    65,
+    "coins9",
+    "move",
+    120
+   ],
+   [
+    "Tobias",
+    45,
+    712,
+    265,
+    100,
+    50,
+    "coins50",
+    "move",
+    120
+   ],
+   [
+    "Elena",
+    34,
+    939,
+    272,
+    100,
+    56,
+    "coins10,remedy2",
+    "do",
+    120
+   ],
+   [
+    "Bram",
+    53,
+    922,
+    248,
+    100,
+    21,
+    "food3,wood2,coins12",
+    "move",
+    120
+   ],
+   [
+    "Sera",
+    19,
+    938,
+    225,
+    100,
+    45,
+    "food6",
+    "gather",
+    120
+   ],
+   [
+    "Hugo",
+    78,
+    945,
+    357,
+    100,
+    19,
+    "coins17",
+    "do",
+    120
+   ]
+  ],
+  "dead": [],
+  "places": [
+   [
+    "Whisperwood Forest",
+    100,
+    60
+   ],
+   [
+    "River",
+    100,
+    20
+   ],
+   [
+    "Hale Farm",
+    100,
+    50
+   ],
+   [
+    "Common Fields",
+    100,
+    45
+   ],
+   [
+    "Village Hall",
+    100,
+    null
+   ],
+   [
+    "Village Square",
+    100,
+    null
+   ],
+   [
+    "Village Well",
+    100,
+    null
+   ],
+   [
+    "The Crooked Mug Tavern",
+    100,
+    null
+   ],
+   [
+    "Market",
+    100,
+    null
+   ],
+   [
+    "Old Ruins",
+    100,
+    null
+   ],
+   [
+    "Graveyard",
+    100,
+    null
+   ],
+   [
+    "Eastern Road",
+    100,
+    null
+   ],
+   [
+    "Mira's House",
+    100,
+    null
+   ],
+   [
+    "Elena's House",
+    100,
+    null
+   ],
+   [
+    "Bram's Cabin",
+    100,
+    null
+   ],
+   [
+    "Hugo's Cottage",
+    100,
+    null
+   ]
+  ],
+  "log": 295,
+  "lastLog": [
+   "❗ New problem: Repair the broken bridge",
+   "🔵 Blue lights flicker among the Old Ruins...",
+   "Tobias → Sera: \"I keep thinking about throwing the best harvest festival this village has ever seen.\"",
+   "Sera → Tobias: \"Ooh, I've always liked Mira. Heart of gold.\"",
+   "Tobias → Sera: \"It's always nice to see you, Sera.\"",
+   "Sera → Tobias: \"Oh! Morning to you, Tobias.\"",
+   "Elena → Bram: \"You've a good head on your shoulders, Bram.\"",
+   "Tobias → Sera: \"Busy day, Sera? Mark my words.\"",
+   "Sera → Tobias: \"The festival's only a few days off now.\"",
+   "Sera → Tobias: \"Say, keeping busy, Tobias?\"",
+   "Sera → Tobias: \"The well water tastes sweeter lately, don't you think?\"",
+   "Sera → Tobias: \"Ooh, Tobias, what do you know about the lights at the ruins?\"",
+   "Tobias → Sera: \"Listen here, you're a disgrace, Sera.\"",
+   "🔍 Mira found a clue: Under the slab is a sealed door, humming faintly. Something is behind it.",
+   "✅ SOLVED: The mystery of the blue lights (thanks to Elena, Hugo, Sera)"
+  ],
+  "problems": [
+   [
+    "The mystery of the blue lights",
+    100,
+    true
+   ],
+   [
+    "Prepare the harvest festival",
+    100,
+    true
+   ],
+   [
+    "Repair the broken bridge",
+    10,
+    false
+   ]
+  ],
+  "inventions": [],
+  "gatherings": 0,
+  "promises": 0,
+  "leader": "Hugo"
+ },
+ "42": {
+  "time": 3360,
+  "people": [
+   [
+    "Mira",
+    28,
+    118,
+    647,
+    100,
+    43,
+    "food2,coins8",
+    "do",
+    120
+   ],
+   [
+    "Tobias",
+    46,
+    912,
+    619,
+    100,
+    62,
+    "water1,coins38",
+    "move",
+    120
+   ],
+   [
+    "Elena",
+    35,
+    510,
+    444,
+    100,
+    50,
+    "coins5,remedy2",
+    "move",
+    120
+   ],
+   [
+    "Bram",
+    53,
+    446,
+    327,
+    100,
+    52,
+    "food7,wood3,coins16,herbs1,tool1",
+    "talk",
+    120
+   ],
+   [
+    "Sera",
+    20,
+    523,
+    333,
+    100,
+    38,
+    "food3,coins1",
+    "move",
+    120
+   ],
+   [
+    "Hugo",
+    78,
+    888,
+    446,
+    100,
+    49,
+    "food2,coins17",
+    "move",
+    120
+   ]
+  ],
+  "dead": [],
+  "places": [
+   [
+    "Whisperwood Forest",
+    100,
+    60
+   ],
+   [
+    "River",
+    100,
+    17
+   ],
+   [
+    "Hale Farm",
+    100,
+    50
+   ],
+   [
+    "Common Fields",
+    100,
+    45
+   ],
+   [
+    "Village Hall",
+    100,
+    null
+   ],
+   [
+    "Village Square",
+    100,
+    null
+   ],
+   [
+    "Village Well",
+    100,
+    null
+   ],
+   [
+    "The Crooked Mug Tavern",
+    100,
+    null
+   ],
+   [
+    "Market",
+    100,
+    null
+   ],
+   [
+    "Old Ruins",
+    100,
+    null
+   ],
+   [
+    "Graveyard",
+    100,
+    null
+   ],
+   [
+    "Eastern Road",
+    100,
+    null
+   ],
+   [
+    "Mira's House",
+    100,
+    null
+   ],
+   [
+    "Elena's House",
+    100,
+    null
+   ],
+   [
+    "Bram's Cabin",
+    100,
+    null
+   ],
+   [
+    "Hugo's Cottage",
+    56,
+    null
+   ]
+  ],
+  "log": 265,
+  "lastLog": [
+   "Mira → Tobias: \"The village is lucky to have you, Tobias.\"",
+   "Mira → Tobias: \"Honestly, did you hear, Tobias? Mira found a clue at the ruins: Old carvings on the stones show people bowing to a glowing figure.\"",
+   "Mira → Tobias: \"Ah, Tobias. Just the person.\"",
+   "Elena cleans and tidies up.",
+   "Hugo → Tobias: \"What do you make of Mira, Tobias?\"",
+   "Bram → everyone: \"Say what you like, Mira has been good to me.\"",
+   "Tobias → Hugo: \"Listen here, I don't trust you, Hugo. Not one bit.\"",
+   "Mira → Elena: \"I keep hoping I'll run into you, Elena.\"",
+   "Hugo → Bram: \"What have you been up to, Bram?\"",
+   "Bram → Sera: \"Hmph. Word around the village: Bram found a clue at the ruins: The seal bears a mark: the letters H.A. Hugo Ashby.\"",
+   "🔍 Elena found a clue: Under the slab is a sealed door, humming faintly. Something is behind it.",
+   "✅ SOLVED: The mystery of the blue lights (thanks to Elena, Hugo, Mira)",
+   "Bram → Sera: \"Sera, we need your help: repair the broken bridge.\"",
+   "Sera → Bram: \"Ah, Bram. Just the person. Hehe.\"",
+   "Bram → Sera: \"We should spend more time together, Sera.\""
+  ],
+  "problems": [
+   [
+    "The mystery of the blue lights",
+    100,
+    true
+   ],
+   [
+    "Prepare the harvest festival",
+    100,
+    true
+   ],
+   [
+    "Repair the broken bridge",
+    34,
+    false
+   ]
+  ],
+  "inventions": [],
+  "gatherings": 0,
+  "promises": 0,
+  "leader": "Hugo"
+ }
+}
