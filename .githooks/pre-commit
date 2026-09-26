@@ -1,0 +1,9 @@
+#!/bin/sh
+# Pre-commit: refuse commits that break the architecture rules, lint rules or tests.
+# Enable once per clone with: npm run setup:hooks
+echo "pre-commit: checking architecture, lint and tests..."
+npm run --silent verify || {
+  echo ""
+  echo "Commit blocked: fix the problems above (see CLAUDE.md for the rules)."
+  exit 1
+}
