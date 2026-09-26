@@ -1,0 +1,20 @@
+{
+  "$comment": "Architecture rules enforced by tools/check.mjs (npm run lint:arch). Layers are listed bottom (most stable) to top (most volatile). A module may import from its own layer or any layer BELOW it, never above. Lower layers that need to notify higher ones use core/events.js.",
+  "root": "public/src",
+  "limits": {
+    "maxFileLines": 200,
+    "maxFunctionLines": 80
+  },
+  "layers": [
+    { "name": "data", "folders": ["data"] },
+    { "name": "core", "folders": ["core"] },
+    { "name": "foundations", "folders": ["identity", "nav", "economy"] },
+    { "name": "social", "folders": ["social"] },
+    { "name": "simulation", "folders": ["world", "life", "village"] },
+    { "name": "effects", "folders": ["effects"] },
+    { "name": "actions", "folders": ["actions"] },
+    { "name": "ai", "folders": ["ai"] },
+    { "name": "ui", "folders": ["ui"] },
+    { "name": "app", "folders": ["app", "api.js"] }
+  ]
+}
