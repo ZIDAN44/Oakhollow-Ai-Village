@@ -1,0 +1,30 @@
+{
+  "name": "oakhollow",
+  "version": "2.0.0",
+  "description": "A village simulation where Jev (TypeSafe AI) decides what every villager does.",
+  "type": "module",
+  "scripts": {
+    "docs:build": "node tools/docs.mjs",
+    "docs:check": "node tools/docs.mjs --check",
+    "format:md": "prettier --write \"**/*.md\"",
+    "lint": "npm run lint:arch && npm run lint:js && npm run lint:md",
+    "lint:arch": "node tools/check.mjs",
+    "lint:js": "eslint .",
+    "lint:md": "prettier --check \"**/*.md\"",
+    "report:deps": "node tools/deps.mjs",
+    "setup:hooks": "git config core.hooksPath .githooks",
+    "start": "node server.js",
+    "test": "node --test \"tests/*.test.mjs\"",
+    "test:update-golden": "node tests/make-golden.mjs",
+    "verify": "npm run lint && npm test"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.9"
+  }
+}
