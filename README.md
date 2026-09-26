@@ -7,6 +7,8 @@ moment. A cheap text model writes what they say. Without an API key, a simple bu
 Villagers work, trade, open businesses, study, court, marry, have children, fall sick, fight, steal, vote,
 invent new activities, keep or break promises, and die.
 
+[![A 4½-minute tour of Oakhollow on YouTube](docs/media/demo-thumbnail.jpg)](https://www.youtube.com/watch?v=2qslosETLzI)
+
 ## Run it
 
 Requires Node 22 or newer.
