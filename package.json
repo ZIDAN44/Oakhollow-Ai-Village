@@ -2,6 +2,8 @@
   "name": "oakhollow",
   "version": "2.0.0",
   "description": "A village simulation where Jev (TypeSafe AI) decides what every villager does.",
+  "license": "MIT",
+  "author": "Zinadin Zidan",
   "type": "module",
   "scripts": {
     "demo:record": "node tools/demo/record.mjs",

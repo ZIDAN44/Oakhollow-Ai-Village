@@ -42,3 +42,7 @@ npm run setup:hooks   # run verify before every commit
 ```
 
 Rules for contributors (human or AI) are in [CLAUDE.md](CLAUDE.md).
+
+## License
+
+This project is released under the [MIT License](LICENSE).
