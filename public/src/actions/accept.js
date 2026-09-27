@@ -7,6 +7,7 @@ import { sim } from '../core/state.js';
 import { startPregnancy } from '../life/family.js';
 import { createGathering } from '../life/gatherings.js';
 import { addMod, opinion } from '../social/relationships.js';
+import { theName } from '../core/util.js';
 
 // ------------------------------------------------------------------ Accepted requests
 
@@ -60,7 +61,7 @@ function employ(npc, from, req) {
   if (!place) return;
   worker.job = { place: place.name, employer: boss.name, wage: 3 };
   place.biz.employees = [...new Set([...(place.biz.employees || []), worker.name])];
-  broadcast(`${worker.name} now works for ${boss.name} at the ${place.name}.`, `${worker.name} got a job at the ${place.name}`, 4);
+  broadcast(`${worker.name} now works for ${boss.name} at ${theName(place.name)}.`, `${worker.name} got a job at ${theName(place.name)}`, 4);
   chronicle(`💼 ${worker.name} now works at ${boss.name}'s ${place.name}.`, worker, 'life');
 }
 

@@ -8,6 +8,7 @@ import { describeEffects, requirementsMet } from '../../effects/index.js';
 import { P } from '../../identity/identity.js';
 import { opinion } from '../../social/relationships.js';
 import { usable } from '../../world/buildings.js';
+import { theName } from '../../core/util.js';
 
 // Problems to solve
 export function optionsProblemsToSolve(npc, ctx) {
@@ -57,7 +58,7 @@ function labourOptions(npc, { here, near, add, homePlace }) {
 if (npc.pregnancy?.labour) {
   if (homePlace && homePlace !== here) add('Hurry home to give birth', 'Your labour has started. A bed is safer.', { type: 'move', target: homePlace.name, then: { type: 'sleep' }, thenLabel: 'give birth' });
   const clinic = sim.places.find(p => p.clinic && usable(p));
-  if (clinic && clinic !== here) add(`Go to the ${clinic.name} to give birth`, 'Safest place for a birth.', { type: 'move', target: clinic.name, then: { type: 'sleep' }, thenLabel: 'give birth' });
+  if (clinic && clinic !== here) add(`Go to ${theName(clinic.name)} to give birth`, 'Safest place for a birth.', { type: 'move', target: clinic.name, then: { type: 'sleep' }, thenLabel: 'give birth' });
   for (const h of sim.npcs.filter(o => o !== npc && o.age >= 16 && skill(o, 'herbalism') >= 35 && !near.includes(o)).slice(0, 2)) {
     add(`Send for ${h.name} to help with the birth`, `${h.name} is ${skillWord(skill(h, 'herbalism'))} at healing.`, { type: 'request', target: h.name, kind: 'midwife', remote: true });
   }
@@ -73,7 +74,7 @@ if (skill(npc, 'herbalism') >= 35) {
 function sickOptions(npc, { here, add, homePlace }) {
 if (npc.sick) {
   const clinic = sim.places.find(p => p.clinic && usable(p));
-  if (clinic && clinic !== here) add(`Rest at the ${clinic.name} until you're well`, 'Patients recover faster there.', { type: 'move', target: clinic.name, then: { type: 'sleep' }, thenLabel: 'rest' });
+  if (clinic && clinic !== here) add(`Rest at ${theName(clinic.name)} until you're well`, 'Patients recover faster there.', { type: 'move', target: clinic.name, then: { type: 'sleep' }, thenLabel: 'rest' });
   if (homePlace && homePlace !== here) add('Go home and rest in bed', 'Rest in bed to recover faster.', { type: 'move', target: homePlace.name, then: { type: 'sleep' }, thenLabel: 'rest' });
 }
 }
@@ -88,7 +89,7 @@ if (npc.spouse && opinion(npc, npc.spouse, 'rom') < 10 && opinion(npc, npc.spous
 function repairOptions(npc, { here, add }) {
 if ((npc.inv.wood || 0) >= 2) {
   for (const p of sim.places.filter(p => (p.condition ?? 100) < 70 && (p === here || p.owner === npc.name || p.biz?.owner === npc.name || p.owner === npc.spouse)).slice(0, 3)) {
-    add(`Repair the ${p.name} (2 wood)`, `It is ${p.condition < 40 ? 'badly damaged and barely usable' : 'damaged'}.`, { type: 'repair', place: p.name, at: p !== here ? p.name : null, label: 'repair' });
+    add(`Repair ${theName(p.name)} (2 wood)`, `It is ${p.condition < 40 ? 'badly damaged and barely usable' : 'damaged'}.`, { type: 'repair', place: p.name, at: p !== here ? p.name : null, label: 'repair' });
   }
 }
 }

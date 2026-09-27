@@ -4,7 +4,7 @@ import { buyFromBusiness, buyFromMarket, gather, sellToMarket, treat } from '../
 import { chronicle, remember, say, witness } from '../../core/memory.js';
 import { addItems, hasItems } from '../../core/skills.js';
 import { sim } from '../../core/state.js';
-import { clamp } from '../../core/util.js';
+import { clamp, theName } from '../../core/util.js';
 import { BUSINESS_TYPES } from '../../data/economy.js';
 import { addMod } from '../../social/relationships.js';
 import { speak } from '../../social/speak.js';
@@ -63,7 +63,7 @@ export function verbStock(npc, act, { here, t, target }) {
 export function verbCollect(npc, act, { here, t, target }) {
   const biz = here.biz;
   npc.inv.coins += biz.till;
-  remember(npc, `You collected ${biz.till} coins from the ${here.name}.`, null, 3);
+  remember(npc, `You collected ${biz.till} coins from ${theName(here.name)}.`, null, 3);
   biz.till = 0;
   npc.action = { type: 'wait', until: t + 5 };
   return;
@@ -71,8 +71,8 @@ export function verbCollect(npc, act, { here, t, target }) {
 
 export function verbPrices(npc, act, { here, t, target }) {
   here.biz.priceMult = clamp(here.biz.priceMult + (act.dir > 0 ? 0.25 : -0.25), 0.5, 2.5);
-  remember(npc, `You ${act.dir > 0 ? 'raised' : 'lowered'} prices at the ${here.name}.`, null, 2);
-  witness(npc, `${npc.name} ${act.dir > 0 ? 'raised' : 'lowered'} the prices at the ${here.name}.`, `prices at the ${here.name} went ${act.dir > 0 ? 'up' : 'down'}`, { radius: 200, importance: 3 });
+  remember(npc, `You ${act.dir > 0 ? 'raised' : 'lowered'} prices at ${theName(here.name)}.`, null, 2);
+  witness(npc, `${npc.name} ${act.dir > 0 ? 'raised' : 'lowered'} the prices at ${theName(here.name)}.`, `prices at ${theName(here.name)} went ${act.dir > 0 ? 'up' : 'down'}`, { radius: 200, importance: 3 });
   npc.action = { type: 'wait', until: t + 5 };
   return;
 }
@@ -106,8 +106,8 @@ export function verbRepair(npc, act, { here, t, target }) {
   const p = sim.findPlace(act.place);
   if (!p || (npc.inv.wood || 0) < 2) return;
   npc.inv.wood -= 2;
-  npc.action = { type: 'do', until: t + 60, text: `repairs the ${p.name}`, effect: 'repair', place: p.name, skill: 'crafting' };
-  say(npc, `*repairs the ${p.name}*`, 4000, 'action');
+  npc.action = { type: 'do', until: t + 60, text: `repairs ${theName(p.name)}`, effect: 'repair', place: p.name, skill: 'crafting' };
+  say(npc, `*repairs ${theName(p.name)}*`, 4000, 'action');
   return;
 }
 

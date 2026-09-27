@@ -4,7 +4,7 @@ import { on } from '../core/events.js';
 import { broadcast, chronicle, remember, say, witness, worldEventAll } from '../core/memory.js';
 import { practice, skill } from '../core/skills.js';
 import { sim } from '../core/state.js';
-import { pick } from '../core/util.js';
+import { pick, theName } from '../core/util.js';
 import { P, fill } from '../identity/identity.js';
 import { injure } from '../life/health.js';
 import { addMod, opinion } from '../social/relationships.js';
@@ -96,14 +96,14 @@ export function robBusiness(thief, here) {
   biz.till = 0;
   thief.inv.coins += amount;
   thief.action = { type: 'wait', until: sim.time + 5 };
-  if (!breakLaw(thief, `robbing the ${here.name}`, biz.owner)) {
+  if (!breakLaw(thief, `robbing ${theName(here.name)}`, biz.owner)) {
     const owner = sim.findNpc(biz.owner);
-    if (owner) remember(owner, `Someone emptied the till at the ${here.name}! ${amount} coins gone.`, `the ${here.name} was robbed`, 8);
+    if (owner) remember(owner, `Someone emptied the till at ${theName(here.name)}! ${amount} coins gone.`, `${theName(here.name)} was robbed`, 8);
     if (!sim.problem('robbery')) addProblem('robbery', { culprit: thief.name });
-    chronicle(`🤫 ${thief.name} secretly robbed the ${here.name} of ${amount} coins.`, thief, 'crime');
+    chronicle(`🤫 ${thief.name} secretly robbed ${theName(here.name)} of ${amount} coins.`, thief, 'crime');
   }
-  thief.crimes.push({ what: `robbing the ${here.name}`, at: sim.time, secret: true });
-  remember(thief, `You emptied the till at the ${here.name}: ${amount} coins.`, null, 8);
+  thief.crimes.push({ what: `robbing ${theName(here.name)}`, at: sim.time, secret: true });
+  remember(thief, `You emptied the till at ${theName(here.name)}: ${amount} coins.`, null, 8);
 }
 
 export function punish(leader, target, kind) {

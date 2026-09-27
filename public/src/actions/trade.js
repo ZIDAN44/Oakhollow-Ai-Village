@@ -10,6 +10,7 @@ import { noteGift } from '../social/promises.js';
 import { addMod } from '../social/relationships.js';
 import { judgeAction } from '../village/laws.js';
 import { usable } from '../world/buildings.js';
+import { theName } from '../core/util.js';
 
 // ------------------------------------------------------------------ Verbs
 
@@ -73,13 +74,13 @@ export function buyFromBusiness(npc, place, item) {
   const biz = place?.biz;
   const price = bizPrice(place, item);
   if (!biz || !biz.stock[item] || npc.inv.coins < price) return;
-  if (!staffPresent(place) || !usable(place)) { remember(npc, `Nobody is minding the ${place.name} right now.`, null, 1); return; }
+  if (!staffPresent(place) || !usable(place)) { remember(npc, `Nobody is minding ${theName(place.name)} right now.`, null, 1); return; }
   npc.inv.coins -= price; biz.till += price; biz.stock[item]--;
   if (item === 'meal') { npc.needs.hunger = Math.max(0, npc.needs.hunger - 65); npc.action = { type: 'eat', until: sim.time + 20 }; }
   else { npc.inv[item] = (npc.inv[item] || 0) + 1; npc.action = { type: 'wait', until: sim.time + 8 }; }
   const owner = sim.findNpc(biz.owner);
   if (owner) addMod(owner, npc.name, 'is a good customer', { aff: 2 }, 96);
-  remember(npc, `You bought ${item} at the ${place.name} for ${price} coins.`, null, 2);
+  remember(npc, `You bought ${item} at ${theName(place.name)} for ${price} coins.`, null, 2);
 }
 
 export function treat(healer, patient) {

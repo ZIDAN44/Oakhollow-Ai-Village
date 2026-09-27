@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { newWorld } from './harness.mjs';
 import { compileCustom } from '../public/src/ai/invent/imagine.js';
+import { damagePlace } from '../public/src/world/buildings.js';
 
 // A stand-in for the text model that designs one fair invention.
 const fakeText = async () => ({
@@ -23,4 +24,16 @@ test('a possibility added in God is not credited to the world', async () => {
   } finally { sim.speech = false; globalThis.fetch = realFetch; }
   assert.equal(sim.log.length, logged, 'the God panel writes the one chronicle entry itself');
   assert.equal(sim.inventions.at(-1).label, 'Write a love letter');
+});
+
+// Regression: "Surprise me" logged "A fire damaged the Hugo's Cottage", and robberies read "the The Crooked Mug Tavern".
+test('place names read naturally in event text', () => {
+  const sim = newWorld(42);
+  const cottage = sim.places.find(p => /'s /.test(p.name));
+  damagePlace(cottage, 10, 'a fire');
+  assert.equal(sim.log.at(-1).text, `🏚️ A fire damaged ${cottage.name}.`);
+  damagePlace(sim.findPlace('The Crooked Mug Tavern'), 10, 'the storm');
+  assert.equal(sim.log.at(-1).text, '🏚️ The storm damaged The Crooked Mug Tavern.');
+  damagePlace(sim.findPlace('Market'), 10, 'the storm');
+  assert.equal(sim.log.at(-1).text, '🏚️ The storm damaged the Market.');
 });

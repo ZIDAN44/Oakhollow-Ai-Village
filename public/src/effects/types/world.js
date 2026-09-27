@@ -1,6 +1,6 @@
 // Effects on the physical world: new buildings, damage and repair, natural resources, weather.
 import { sim } from '../../core/state.js';
-import { clamp } from '../../core/util.js';
+import { clamp, theName } from '../../core/util.js';
 import { remember, chronicle, witness, broadcast } from '../../core/memory.js';
 import { findFreeSpot } from '../../core/space.js';
 import { cap } from '../../core/util.js';
@@ -21,8 +21,8 @@ defineEffect('build', {
     }
     return b;
   },
-  apply(e, { npc, results }) { buildPlace(npc, e); results.push(`built the ${e.name}`); },
-  describe: e => `builds the ${e.name}`,
+  apply(e, { npc, results }) { buildPlace(npc, e); results.push(`built ${theName(e.name)}`); },
+  describe: e => `builds ${theName(e.name)}`,
 });
 
 function buildPlace(npc, e) {
@@ -36,12 +36,12 @@ function buildPlace(npc, e) {
   };
   if (e.bed) { place.bed = true; place.owner = npc.name; }
   if (e.produce) {
-    place.biz = { kind: 'custom', owner: npc.name, till: 0, stock: {}, employees: [], priceMult: 1, def: { produce: `${cap(e.produce.text)} at the ${name}`, text: e.produce.text, skill: 'crafting', in: e.produce.in, out: e.produce.out, sells: Object.keys(e.produce.out) } };
+    place.biz = { kind: 'custom', owner: npc.name, till: 0, stock: {}, employees: [], priceMult: 1, def: { produce: `${cap(e.produce.text)} at ${theName(name)}`, text: e.produce.text, skill: 'crafting', in: e.produce.in, out: e.produce.out, sells: Object.keys(e.produce.out) } };
   }
   sim.places.push(place);
-  broadcast(`${npc.name} built something new: the ${name}.`, `${npc.name} built the ${name}`, 6, [npc]);
-  npc.lifeMemories.push(`I built the ${name} on day ${sim.day()}.`);
-  chronicle(`🏗️ ${npc.name} built something never seen before: the ${name}!`, npc, 'event');
+  broadcast(`${npc.name} built something new: ${theName(name)}.`, `${npc.name} built ${theName(name)}`, 6, [npc]);
+  npc.lifeMemories.push(`I built ${theName(name)} on day ${sim.day()}.`);
+  chronicle(`🏗️ ${npc.name} built something never seen before: ${theName(name)}!`, npc, 'event');
 }
 
 const findTarget = (e, npc) => (e.place === 'here' ? sim.placeAt(npc.x, npc.y) : sim.findPlace(e.place));
@@ -58,7 +58,7 @@ defineEffect(['damage', 'repair'], {
     if (!p) return;
     p.condition = clamp((p.condition ?? 100) + (e.type === 'repair' ? e.amount : -e.amount), 0, 100);
     if (e.type !== 'damage') return;
-    witness(npc, `${npc.name} damaged the ${p.name}!`, `${npc.name} damaged the ${p.name}`, { importance: 7 });
+    witness(npc, `${npc.name} damaged ${theName(p.name)}!`, `${npc.name} damaged ${theName(p.name)}`, { importance: 7 });
     const owner = sim.findNpc(p.owner || p.biz?.owner);
     if (owner && owner !== npc) remember(owner, `Your ${p.name} has been damaged.`, null, 7);
   },

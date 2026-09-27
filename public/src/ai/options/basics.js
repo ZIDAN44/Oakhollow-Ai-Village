@@ -1,7 +1,7 @@
 // Options for the body, children, places and everyday activities.
 import { placeDesc } from '../perception.js';
 import { sim } from '../../core/state.js';
-import { pick } from '../../core/util.js';
+import { pick, theName } from '../../core/util.js';
 import { ACTIVITIES } from '../../data/activities.js';
 import { P } from '../../identity/identity.js';
 import { MAX_EXCHANGES, chatWith } from '../../social/conversation.js';
@@ -30,7 +30,7 @@ export function optionsChildren(npc, ctx) {
   for (const p of sim.places) if (p !== here && p.type !== 'river') add(`Explore ${p.name}`, p.desc, { type: 'move', target: p.name });
   if (here?.books || here?.biz?.kind === 'school') add('Learn to read', 'Study from books.', { type: 'study', skill: 'scholarship' });
   const school = sim.places.find(p => p.biz?.kind === 'school');
-  if (school && here !== school && npc.age >= 5) add(`Go to school at the ${school.name}`, 'Learn with the other children.', { type: 'move', target: school.name, then: { type: 'study', skill: 'scholarship' } });
+  if (school && here !== school && npc.age >= 5) add(`Go to school at ${theName(school.name)}`, 'Learn with the other children.', { type: 'move', target: school.name, then: { type: 'study', skill: 'scholarship' } });
   if (parent && near.includes(parent)) add(`Help ${parent.name} with ${P(parent).their} work`, 'Learn by helping.', { type: 'play', text: `helps ${parent.name} with ${P(parent).their} work` });
   add('Wait and watch', 'Stay here.', { type: 'wait', minutes: 20 });
 }

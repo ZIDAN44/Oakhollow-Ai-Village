@@ -3,6 +3,7 @@ import { sim } from '../../core/state.js';
 import { remember, broadcast } from '../../core/memory.js';
 import { addMod } from '../../social/relationships.js';
 import { defineEffect, word, int, placeOrHere, whoLabel } from '../registry.js';
+import { theName } from '../../core/util.js';
 
 defineEffect('item', {
   doc: '{"type":"item","who":"self","item":"carving","amount":1}          gain (+) or use up (-) items, -5..5. Any simple noun works as a new item.',
@@ -45,8 +46,8 @@ defineEffect('give_place', {
     if (p.owner === npc.name) p.owner = target.name;
     if (p.biz?.owner === npc.name) p.biz.owner = target.name;
     if (p.bed && npc.home === p.name && !target.home) target.home = p.name;
-    broadcast(`${npc.name} gave the ${p.name} to ${target.name}.`, `${target.name} now owns the ${p.name}`, 6);
-    addMod(target, npc.name, `gave me the ${p.name}`, { aff: 20, trust: 10 }, 0);
+    broadcast(`${npc.name} gave ${theName(p.name)} to ${target.name}.`, `${target.name} now owns ${theName(p.name)}`, 6);
+    addMod(target, npc.name, `gave me ${theName(p.name)}`, { aff: 20, trust: 10 }, 0);
   },
   describe: () => 'gives away property',
 });

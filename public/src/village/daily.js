@@ -3,6 +3,7 @@ import { chronicle, remember, worldEventAll } from '../core/memory.js';
 import { sim } from '../core/state.js';
 import { arrive } from '../life/arrivals.js';
 import { addMod } from '../social/relationships.js';
+import { theName } from '../core/util.js';
 
 export function collectTills() {
   // Business owners take the day's earnings home, leaving a float for wages.
@@ -11,7 +12,7 @@ export function collectTills() {
     if (owner && p.biz.till > 10) {
       const take = p.biz.till - 10;
       owner.inv.coins += take; p.biz.till = 10;
-      remember(owner, `You took ${take} coins home from the ${p.name}'s till.`, null, 3);
+      remember(owner, `You took ${take} coins home from ${theName(p.name)}'s till.`, null, 3);
     }
   }
 }

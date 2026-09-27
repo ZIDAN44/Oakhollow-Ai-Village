@@ -3,7 +3,7 @@ import { defineVerbs } from '../registry.js';
 import { chronicle, remember, say, witness } from '../../core/memory.js';
 import { addItems, hasItems } from '../../core/skills.js';
 import { sim } from '../../core/state.js';
-import { pick } from '../../core/util.js';
+import { pick, theName } from '../../core/util.js';
 import { P, fill } from '../../identity/identity.js';
 import { recover } from '../../life/health.js';
 import { addMod } from '../../social/relationships.js';
@@ -62,7 +62,7 @@ export function verbSleep(npc, act, { here, t, target }) {
   const inn = here?.biz?.kind === 'tavern' && !outside ? here : null;
   const innOwner = inn && sim.findNpc(inn.biz.owner);
   if (inn && innOwner && innOwner !== npc && npc.job?.place !== inn.name && innOwner.spouse !== npc.name && !innOwner.children.includes(npc.name)) {
-    if (npc.inv.coins >= 2) { npc.inv.coins -= 2; inn.biz.till += 2; remember(npc, `You paid 2 coins for a room at the ${inn.name}.`, null, 1); }
+    if (npc.inv.coins >= 2) { npc.inv.coins -= 2; inn.biz.till += 2; remember(npc, `You paid 2 coins for a room at ${theName(inn.name)}.`, null, 1); }
     else { remember(npc, 'You slept in a room you could not pay for.', null, 4); addMod(innOwner, npc.name, 'slept in my rooms without paying', { aff: -4, trust: -3 }, 96); }
   }
   npc.action = { type: 'sleep', until: t + 8 * 60, bed: !outside };

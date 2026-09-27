@@ -3,6 +3,7 @@ import { broadcast, chronicle, remember } from '../core/memory.js';
 import { practice } from '../core/skills.js';
 import { findFreeSpot } from '../core/space.js';
 import { sim } from '../core/state.js';
+import { theName } from '../core/util.js';
 
 export function finishBuild(npc, a) {
   const b = a.b;
@@ -21,9 +22,9 @@ export function finishBuild(npc, a) {
   if (b.name === 'Shrine to the Voice') place.shrine = true;
   if (b.biz === 'clinic') { place.clinic = true; place.bed = true; }
   sim.places.push(place);
-  broadcast(`${npc.name} built ${b.kind === 'business' ? 'and opened ' : ''}the ${name}.`, `${npc.name} built the ${name}`, b.kind === 'business' ? 6 : 5, [npc]);
-  remember(npc, `You finished building the ${name}!`, null, 7);
-  npc.lifeMemories.push(`I built the ${name} on day ${sim.day()}.`);
-  chronicle(`🏗️ ${npc.name} finished building the ${name}!`, npc, 'event');
+  broadcast(`${npc.name} built ${b.kind === 'business' ? 'and opened ' : ''}${theName(name)}.`, `${npc.name} built ${theName(name)}`, b.kind === 'business' ? 6 : 5, [npc]);
+  remember(npc, `You finished building ${theName(name)}!`, null, 7);
+  npc.lifeMemories.push(`I built ${theName(name)} on day ${sim.day()}.`);
+  chronicle(`🏗️ ${npc.name} finished building ${theName(name)}!`, npc, 'event');
   practice(npc, 'crafting', 4);
 }

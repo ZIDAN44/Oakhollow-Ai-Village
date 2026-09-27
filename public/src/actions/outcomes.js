@@ -10,6 +10,7 @@ import { addMod } from '../social/relationships.js';
 import { contribute } from '../village/problems.js';
 import { openSealedDoor } from '../village/ruins.js';
 import { repairPlace } from '../world/buildings.js';
+import { theName } from '../core/util.js';
 
 export function applyOutcome(npc, a) {
   if (a.skill) practice(npc, a.skill, 1.5);
@@ -44,7 +45,7 @@ function produce(npc, a) {
   else {
     const bonus = skill(npc, def.skill) > 60 ? 1 : 0;
     for (const [k, v] of Object.entries(def.out)) biz.stock[k] = (biz.stock[k] || 0) + v + bonus;
-    remember(npc, `You worked at the ${place.name}: ${Object.entries(def.out).map(([k, v]) => `${v + bonus} ${k}`).join(', ')} made.`, null, 2);
+    remember(npc, `You worked at ${theName(place.name)}: ${Object.entries(def.out).map(([k, v]) => `${v + bonus} ${k}`).join(', ')} made.`, null, 2);
   }
   if (a.shift) payWage(npc, place);
 }
@@ -67,7 +68,7 @@ function repair(npc, a) {
   const p = sim.findPlace(a.place);
   if (!p) return;
   repairPlace(p, 40 + skill(npc, 'crafting') / 3);
-  remember(npc, `You repaired the ${p.name}.`, `${npc.name} repaired the ${p.name}`, 4);
+  remember(npc, `You repaired ${theName(p.name)}.`, `${npc.name} repaired ${theName(p.name)}`, 4);
   const o = sim.findNpc(p.owner || p.biz?.owner);
   if (o && o !== npc) addMod(o, npc.name, `repaired my ${p.name}`, { aff: 10, trust: 5 }, 168);
 }
@@ -97,8 +98,8 @@ const OUTCOMES = {
     const p = sim.placeAt(npc.x, npc.y);
     if (!p) return;
     lift(npc, 0.3);
-    remember(npc, `You helped out at ${p.name} when trouble came.`, `${npc.name} helped out at ${p.name}`, 4);
-    sim.nearby(npc, 150).forEach(o => addMod(o, npc.name, `helped out at ${p.name}`, { aff: 3, trust: 3 }, 96));
+    remember(npc, `You helped out at ${theName(p.name)} when trouble came.`, `${npc.name} helped out at ${theName(p.name)}`, 4);
+    sim.nearby(npc, 150).forEach(o => addMod(o, npc.name, `helped out at ${theName(p.name)}`, { aff: 3, trust: 3 }, 96));
     const owner = sim.findNpc(p.owner || p.biz?.owner);
     if (owner && owner !== npc) addMod(owner, npc.name, `helped when trouble came to my ${p.name}`, { aff: 6, trust: 4 }, 168);
   },

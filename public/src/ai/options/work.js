@@ -1,7 +1,7 @@
 // Options for work, learning and building.
 import { resWord } from '../perception.js';
 import { sim } from '../../core/state.js';
-import { pick } from '../../core/util.js';
+import { pick, theName } from '../../core/util.js';
 import { BUILDABLES, BUSINESS_TYPES } from '../../data/economy.js';
 import { SKILLS } from '../../data/skills.js';
 import { bizPrice, marketOpen, marketPrice, staffPresent } from '../../economy/market.js';
@@ -22,7 +22,7 @@ if (here?.res && here.res.amount >= 1) {
 function jobOptions(npc, { here, add }) {
 if (npc.job) {
   const jp = sim.findPlace(npc.job.place);
-  if (jp?.biz) add(`Work your shift at the ${jp.name}`, `Earn ${npc.job.wage} coins working for ${npc.job.employer}.`, { type: 'produce', at: jp.name, shift: true, label: 'work a shift' });
+  if (jp?.biz) add(`Work your shift at ${theName(jp.name)}`, `Earn ${npc.job.wage} coins working for ${npc.job.employer}.`, { type: 'produce', at: jp.name, shift: true, label: 'work a shift' });
   add(`Quit your job at the ${npc.job.place}`, 'Stop working there.', { type: 'quit' });
 }
 }
@@ -48,7 +48,7 @@ if (here?.biz && here.biz.owner !== npc.name) {
     if (qty > 0 && npc.inv.coins >= price) add(`Buy ${item === 'meal' ? 'a hot meal' : item} here (${price} coins)`, `From ${here.biz.owner || 'the shop'}.`, { type: 'buyBiz', item });
   }
   const owner = sim.findNpc(here.biz.owner);
-  if (here.biz.till > 0 && (!owner || sim.dist(owner, npc) > 150)) add(`Rob the till of the ${here.name}`, `The owner isn't here. Steal ${here.biz.till} coins. A crime.`, { type: 'robBiz' });
+  if (here.biz.till > 0 && (!owner || sim.dist(owner, npc) > 150)) add(`Rob the till of ${theName(here.name)}`, `The owner isn't here. Steal ${here.biz.till} coins. A crime.`, { type: 'robBiz' });
 }
 }
 

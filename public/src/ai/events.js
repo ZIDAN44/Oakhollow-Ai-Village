@@ -2,6 +2,7 @@
 // As everyday options alone, "Rush to the tavern" competed with dozens of others and was rarely picked.
 import { choose } from './sampling.js';
 import { eventKeys, eventPlace } from './options/events.js';
+import { theName } from '../core/util.js';
 import { fill } from '../identity/identity.js';
 
 const REACTIONS = {
@@ -23,7 +24,7 @@ export function eventQuestion(npc, options) {
   const fresh = freshReactions(npc, options);
   if (!fresh) return {};
   const criteria = Object.fromEntries(Object.entries(REACTIONS).filter(([k]) => k === 'carry_on' || fresh.found[k])
-    .map(([k, r]) => [k, fill(r.desc.replace('{place}', fresh.place.name), npc)]));
+    .map(([k, r]) => [k, fill(r.desc.replace('{place}', theName(fresh.place.name)), npc)]));
   return {
     event_reaction: {
       type: 'choice',
