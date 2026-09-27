@@ -10,8 +10,9 @@ export function addInvention(inv, npc) {
     sim.inventions.sort((a, b) => (b.uses - a.uses) || (b.created - a.created));
     sim.inventions.length = 80;
   }
-  if (npc) remember(npc, `You had an idea: ${inv.label.toLowerCase()} (${describeEffects(inv.effects)}).`, null, 5);
-  chronicle(`💡 ${npc ? npc.name : 'The world'} came up with a new idea: "${inv.label}" (${describeEffects(inv.effects)})`, npc, 'invent');
+  if (!npc) return; // the player's own possibilities: the God panel writes their chronicle entry
+  remember(npc, `You had an idea: ${inv.label.toLowerCase()} (${describeEffects(inv.effects)}).`, null, 5);
+  chronicle(`💡 ${npc.name} came up with a new idea: "${inv.label}" (${describeEffects(inv.effects)})`, npc, 'invent');
 }
 
 // Which inventions this person might think of now (retrieval by relevance, like Voyager's top-k).
