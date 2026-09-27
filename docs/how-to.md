@@ -153,6 +153,10 @@ npm run demo:record                 # live, with the key in .env
 npm run demo:record -- --offline    # free dry run with the offline brain
 ```
 
+`--tour story` records an uncaptioned take for a narrated edit instead: it whispers to villagers, starts a fire,
+calls an election and brings in a stranger. It skips the automatic cuts and saves `events.json`, the Chronicle
+entries with their times in the video, so you can cut around what the villagers actually did.
+
 The videos go to `recordings/`, which git ignores:
 
 | File                                    | Use                                        |

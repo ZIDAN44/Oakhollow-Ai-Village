@@ -1,5 +1,5 @@
 // Records the demo video: starts the game, plays the scripted tour in headless Chrome, and cuts the videos.
-// Run: npm run demo:record [-- --offline] [-- --headed]. Needs Chrome (or --channel) and ffmpeg. See docs/how-to.md.
+// Run: npm run demo:record [-- --tour story] [-- --offline] [-- --headed]. Needs Chrome and ffmpeg. See docs/how-to.md.
 import { execFileSync, spawn } from 'node:child_process';
 import { mkdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
@@ -9,17 +9,24 @@ import { chromium } from 'playwright-core';
 import { startCapture } from './capture.mjs';
 import { director, sleep } from './director.mjs';
 import { edit } from './edit.mjs';
+import { startEventLog } from './events.mjs';
 import { chronicle, outro, timelapse, village, voices } from './tour/panels.mjs';
 import { election, event, possibility, villager, weather } from './tour/god.mjs';
+import * as story from './tour/story.mjs';
 import { follow, intro, map, mind, whisper } from './tour/world.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const SCENES = [intro, map, mind, follow, whisper, event, weather, villager, possibility, election, chronicle, voices, village, timelapse, outro];
+// features: a captioned tour of every panel, cut automatically. story: uncaptioned, for a narrated edit by hand.
+const TOURS = {
+  features: [intro, map, mind, follow, whisper, event, weather, villager, possibility, election, chronicle, voices, village, timelapse, outro],
+  story: [story.open, story.whispers, story.fire, story.election, story.stranger, story.night, story.end],
+};
 // Frames are captured at the page's CSS size, so a 1536x864 page gives 125% text in the 1080p video.
 const VIEWPORT = { width: 1536, height: 864 };
 
 const { values: opt } = parseArgs({ options: {
   out: { type: 'string', default: 'recordings' },
+  tour: { type: 'string', default: 'features' },
   offline: { type: 'boolean', default: false },
   headed: { type: 'boolean', default: false },
   port: { type: 'string', default: '3100' },
@@ -61,13 +68,16 @@ async function playTour(page, geo, out) {
   await d.until(() => window.oakhollow.log.filter(e => e.kind === 'speech').length >= 3, 40000);
   const cap = await startCapture(page, path.join(out, 'master.mp4'), { ffmpeg: opt.ffmpeg, size: VIEWPORT });
   await sleep(600);
+  const log = startEventLog(page, cap);
   const ctx = { d, page, M: name => cap.mark(name), state: {}, ...geo };
-  for (const scene of SCENES) await scene(ctx);
+  for (const scene of TOURS[opt.tour]) await scene(ctx);
   const marks = await cap.stop(path.join(out, 'marks.json'));
+  await log.stop(path.join(out, 'events.json'));
   return { marks, stats: await d.sim(() => window.oakhollow.stats) };
 }
 
 async function main() {
+  if (!TOURS[opt.tour]) throw new Error(`Unknown tour "${opt.tour}". Use one of: ${Object.keys(TOURS).join(', ')}.`);
   checkFfmpeg();
   const out = path.resolve(ROOT, opt.out);
   mkdirSync(out, { recursive: true });
@@ -77,7 +87,10 @@ async function main() {
   try {
     game = await openGame();
     const { marks, stats } = await playTour(game.page, game.geo, out);
-    console.log(`Recorded. ${stats.calls} Jev calls, ${stats.errors} errors, $${(stats.cost + (stats.speechCost || 0)).toFixed(3)}. Editing...`);
+    console.log(`Recorded. ${stats.calls} Jev calls, ${stats.errors} errors, $${(stats.cost + (stats.speechCost || 0)).toFixed(3)}.`);
+    if (opt.tour !== 'features') return console.log(`Done: ${out}
+  master.mp4, marks.json and events.json are ready for editing.`);
+    console.log('Editing...');
     const master = path.join(out, 'master.mp4');
     const { fullSeconds, readmeSeconds } = edit({ master, marks, out, ffmpeg: opt.ffmpeg });
     for (const f of ['x264-0.log', 'x264-0.log.mbtree', 'chapters.txt']) rmSync(path.join(out, f), { force: true });
