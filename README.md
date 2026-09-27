@@ -18,7 +18,7 @@ cp .env.example .env    # optional: add an API key (see below)
 npm start
 ```
 
-Open http://localhost:3000. Add `?offline` to the URL to run without API calls.
+Open <http://localhost:3000>. Add `?offline` to the URL to run without API calls.
 
 For AI decisions, set `TYPESAFE_API_KEY` in `.env` to a TypeSafe key, or to an OpenRouter key together with
 `TYPESAFE_BASE_URL=https://openrouter.ai/api`. With an OpenRouter key, speech uses the same key.

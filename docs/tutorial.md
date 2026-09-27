@@ -8,7 +8,7 @@ This tutorial starts a village without an API key, then shows the main controls.
 npm start
 ```
 
-Open http://localhost:3000/?offline. `?offline` uses the built-in brain, so nothing is sent to an API.
+Open <http://localhost:3000/?offline>. `?offline` uses the built-in brain, so nothing is sent to an API.
 
 The map shows six villagers. At 1× speed, one game minute passes every half second, so a game day
 lasts 12 real minutes. The buttons at the top set the speed: pause, 1×, 2×, 4× and 8×.
@@ -55,7 +55,7 @@ Open **God**:
 ## 6. Turn on the AI
 
 1. Copy `.env.example` to `.env` and set `TYPESAFE_API_KEY` (see [configuration](reference/configuration.md)).
-2. Restart `npm start` and open http://localhost:3000 without `?offline`.
+2. Restart `npm start` and open <http://localhost:3000> without `?offline`.
 3. The top bar shows the models in use and the cost reported by the API.
 
 Next: [how the minds work](explanation/minds.md).
