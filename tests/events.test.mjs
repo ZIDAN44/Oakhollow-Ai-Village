@@ -5,6 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { newWorld, api } from './harness.mjs';
 import { speakerBlock } from '../public/src/ai/speech/prompt.js';
+import { writeLine } from '../public/src/ai/speech/write.js';
 import { startElection } from '../public/src/village/politics.js';
 import { strangerTheft } from '../public/src/village/storyteller.js';
 
@@ -100,4 +101,16 @@ test('world events show in the chronicle', () => {
   strangerTheft(); // the robbery problem already exists, so no "New problem" entry either
   assert.equal(sim.log.length, logged + 1);
   assert.match(sim.log.at(-1).text, /has been robbed/);
+});
+
+// Regression: "Rewrite the world" changed what Jev saw, but speech still assumed a medieval village.
+test('speech is written for the current world lore', async () => {
+  const sim = newWorld(37);
+  sim.lore = 'Oakhollow floats on a cloud above a sea of stars.';
+  let sent = null;
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async (url, opts) => { sent = JSON.parse(opts.body); return { ok: true, json: async () => ({ text: '{"line": "Hello."}' }) }; };
+  try { await writeLine(sim.npcs[0], { type: 'say', intent: 'greet' }, sim.npcs[1]); } finally { globalThis.fetch = realFetch; }
+  assert.match(sent.prompt, /WORLD: Oakhollow floats on a cloud/);
+  assert.doesNotMatch(sent.system, /medieval/);
 });

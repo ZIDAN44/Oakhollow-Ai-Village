@@ -12,6 +12,7 @@ export function clean(text, npc) {
 export async function writeLine(npc, act, target) {
   const place = sim.placeAt(npc.x, npc.y);
   const prompt = [
+    `WORLD: ${sim.lore}`,
     speakerBlock(npc),
     listenerBlock(npc, target),
     `PLACE/TIME: ${place?.name || 'open fields'}, ${sim.partOfDay()}, ${sim.weather.kind}.`,

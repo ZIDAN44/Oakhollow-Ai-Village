@@ -7,7 +7,7 @@ import { INTENTS } from '../../social/intents.js';
 import { relLabel, topReasons } from '../../social/relationships.js';
 import { REQUESTS } from '../../social/requests.js';
 
-export const SYSTEM = `You write ONE line of spoken dialogue for a character in a living medieval village simulation.
+export const SYSTEM = `You write ONE line of spoken dialogue for a character in a living village simulation. The WORLD line sets the scene.
 Stay perfectly in character: their personality, speech quirks, mood, and feelings about the listener.
 Output only the words they say aloud. No quotes, no name prefix, no narration, no stage directions.
 Keep it natural and short (under 25 words). Continue the conversation naturally; don't repeat earlier lines.

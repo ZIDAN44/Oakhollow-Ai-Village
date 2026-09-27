@@ -54,7 +54,7 @@ affection, trust and romance. Jev sees the reasons, not only the totals.
 ## Speech
 
 Jev picks the kind of line (flirt, lie, confide a secret, threaten, answer a question). A text model then
-writes it using the speaker's personality, speech habits, mood, their relationship with the listener, the
+writes it using the world lore, the speaker's personality, speech habits, mood, their relationship with the listener, the
 conversation so far and any world event from the last few game hours. It returns JSON: the line, and a
 promise if the line makes one. Promises are tracked and are kept or broken later.
 
