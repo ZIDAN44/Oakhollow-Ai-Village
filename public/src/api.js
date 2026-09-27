@@ -19,4 +19,5 @@ export { makePromise, keepPromise } from './social/promises.js';
 export { canRomance, opinion } from './social/relationships.js';
 export { makeRequest } from './social/requests.js';
 export { whisper } from './social/voice.js';
+export { worldEventAll } from './core/memory.js';
 export { P, fill, canConceive } from './identity/identity.js';

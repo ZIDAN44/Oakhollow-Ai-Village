@@ -63,7 +63,18 @@ export function wake(npc) {
   npc.nextThinkAt = Math.min(npc.nextThinkAt, sim.time);
 }
 
+// News for the whole village. Each person marks it as an event, so minds can react to it (ai/events.js).
 export function worldEventAll(text, importance = 7) {
-  broadcast(`EVENT: ${text}`, text, importance);
+  for (const o of sim.npcs) {
+    remember(o, `EVENT: ${text}`, text, importance);
+    o.memory.at(-1).event = true;
+    o.freshEvent = text;
+  }
   sim.npcs.forEach(wake);
+}
+
+// The world events a person heard of in the last `hours`, newest first, each once.
+export function recentEvents(npc, hours = 6) {
+  const seen = new Set();
+  return npc.memory.filter(m => m.event && sim.time - m.at < hours * 60).reverse().filter(m => !seen.has(m.gist) && seen.add(m.gist));
 }

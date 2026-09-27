@@ -1,4 +1,5 @@
 // Thinking: one Jev request per decision, sampled from its probabilities.
+import { eventReply } from './events.js';
 import { applyJudgements, voiceReply } from './judgements.js';
 import { topOf, choose } from './sampling.js';
 import { offlineAnswers } from './offline.js';
@@ -23,7 +24,7 @@ export async function think(npc) {
   applyJudgements(npc, answers, near);
 
   const chosenKey = choose(answers.action);
-  const chosen = voiceReply(npc, answers)
+  const chosen = voiceReply(npc, answers) || eventReply(npc, answers, options)
     || options.find(o => o.key === chosenKey) || options.find(o => o.key === answers.action?.choice) || options[options.length - 1];
   const act = structuredClone(chosen.act);
   if (act.type === 'say') prepareSay(npc, act, answers, near);

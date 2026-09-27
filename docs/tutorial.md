@@ -43,7 +43,8 @@ may think them strange), ask it for a sign, or ignore it. Their replies to you a
 
 Open **God**:
 
-- **Make something happen** announces an event, such as a fire or bandits, that everyone hears about.
+- **Make something happen** announces an event, such as a fire or bandits, that everyone hears about. If it
+  names a place ("at the tavern"), each villager decides whether to hurry there to help, keep away or carry on.
 - **Add a villager** brings a new person in by the Eastern Road.
 - **Add a problem to solve** creates a task villagers can work on together.
 - **Add a new possibility** adds an activity people can choose. With a text model configured, it is turned

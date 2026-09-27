@@ -1,5 +1,6 @@
 // Everything a person could do right now, gathered from the option providers.
 import { optionsBody, optionsChildren, optionsEverydayActivities, optionsPlaces } from './basics.js';
+import { optionsRecentEvents } from './events.js';
 import { optionsGriefTheVoice, optionsInventions, optionsLeadershipAndPolitics, optionsLifeEvents, optionsProblemsToSolve } from './civic.js';
 import { optionsPeopleElsewhere, optionsPeopleNearby, optionsPromises, optionsRequestsPeopleMade } from './social.js';
 import { optionsBuilding, optionsLearning, optionsWorkAndMoney } from './work.js';
@@ -28,6 +29,7 @@ export function buildOptions(npc) {
   optionsBody(npc, ctx);
   if (!adult) { optionsChildren(npc, ctx); return opts; }
   optionsRequestsPeopleMade(npc, ctx);
+  optionsRecentEvents(npc, ctx);
   optionsPeopleNearby(npc, ctx);
   optionsPeopleElsewhere(npc, ctx);
   optionsPlaces(npc, ctx);

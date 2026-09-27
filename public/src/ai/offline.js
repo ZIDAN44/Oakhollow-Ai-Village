@@ -23,6 +23,7 @@ const SCORE_RULES = [
   (s, a) => a.type === 'request' && ['court', 'marry', 'family'].includes(a.kind) ? s + 1 : s,
   (s, a) => a.type === 'selfCure' ? s + 10 : s,
   (s, a, o) => o.key.startsWith('Attend:') ? s + 3 : s,
+  (s, a, o) => o.key.startsWith('Help at ') ? s + 3 : s, // arrived where something happened
   (s, a, o, { npc }) => npc.pregnancy?.labour && /birth/.test(o.key) ? s + 15 : s,
   (s, a, o, { npc }) => npc.sick && /rest/i.test(o.key) ? s + 4 : s,
   (s, a, o) => o.key.startsWith('Keep your promise') || o.key.startsWith('Go meet') ? s + 4 : s,
@@ -49,6 +50,7 @@ function otherAnswer(npc, k, q, near) {
   if (k.startsWith('attract_')) return { noul: Math.random() * 0.8 };
   if (k === 'vote') return { probabilities: Object.fromEntries(Object.keys(q.criteria).map(c => [c, Math.max(0.05, 50 + opinion(npc, c))])) };
   if (k === 'goal') return { choice: npc.goal };
+  if (k === 'event_reaction') return { probabilities: { help: 1, keep_away: 0.5, carry_on: 2 } };
   return q?.criteria ? { probabilities: Object.fromEntries(Object.keys(q.criteria).map(k => [k, 1])) } : null;
 }
 

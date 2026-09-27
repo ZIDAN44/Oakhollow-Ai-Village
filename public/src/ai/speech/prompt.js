@@ -1,4 +1,5 @@
 // Building the prompt that turns an intent into a spoken line.
+import { recentEvents } from '../../core/memory.js';
 import { sim } from '../../core/state.js';
 import { VOICE_BELIEFS } from '../../data/lore.js';
 import { P, fill, genderWord, orientationWord } from '../../identity/identity.js';
@@ -37,7 +38,14 @@ export function speakerBlock(npc) {
     `Life goal: ${npc.goal}`,
     npc.secret ? `Private secret (keep hidden unless confiding): ${npc.secret}` : '',
     npc.spouse ? `Married to ${npc.spouse}.` : npc.partner ? `In a relationship with ${npc.partner}.` : '',
+    newsBlock(npc),
   ].filter(Boolean).join('\n');
+}
+
+// Big news the speaker heard in the last few hours: it is on their mind, so it colours what they say.
+function newsBlock(npc) {
+  const news = recentEvents(npc, 6).slice(0, 2).map(m => m.gist);
+  return news.length ? `On their mind, just happened in the village: ${news.join(' ')} They would not ignore this.` : '';
 }
 
 export function listenerBlock(npc, target) {

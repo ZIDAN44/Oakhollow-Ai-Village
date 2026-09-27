@@ -17,7 +17,8 @@ Up to 5 people think at the same time; the rest wait in a queue.
 
 The state includes the person's personality, goal, secret, dream, body, skills, family, belongings and
 debts; the people nearby and how the person feels about each of them, with the reasons; where everyone else
-was last seen; the village's leader, laws, problems and prices; open promises and requests; and 14 memories.
+was last seen; the village's leader, laws, problems and prices; open promises and requests; world events from
+the last 12 game hours; and 14 memories.
 
 Memories are recalled by recency, importance and relevance, following the memory stream in
 [Generative Agents](https://arxiv.org/abs/2304.03442) (Park et al., 2023). Recency decays by 3% per game
@@ -37,6 +38,7 @@ hour; importance is 1 to 10; relevance counts shared keywords.
 | `vote`             | choice | an election is running                                      |
 | `voice_belief`     | choice | the person was just whispered to                            |
 | `voice_reaction`   | choice | the person was just whispered to: answer, ask, or ignore it |
+| `event_reaction`   | choice | a world event names a place: go and help, keep away, or not |
 | `role`             | choice | a child comes of age                                        |
 | `keep`, `goal`     | choice | reflection: after important events add up, or on waking     |
 
@@ -52,9 +54,9 @@ affection, trust and romance. Jev sees the reasons, not only the totals.
 ## Speech
 
 Jev picks the kind of line (flirt, lie, confide a secret, threaten, answer a question). A text model then
-writes it using the speaker's personality, speech habits, mood, their relationship with the listener and
-the conversation so far. It returns JSON: the line, and a promise if the line makes one. Promises are
-tracked and are kept or broken later.
+writes it using the speaker's personality, speech habits, mood, their relationship with the listener, the
+conversation so far and any world event from the last few game hours. It returns JSON: the line, and a
+promise if the line makes one. Promises are tracked and are kept or broken later.
 
 If the text model fails, a built-in phrase for that kind of line is used.
 

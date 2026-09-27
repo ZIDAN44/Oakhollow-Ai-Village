@@ -1,6 +1,6 @@
 // What a person knows about themselves and their situation, as Jev's state.
 import { lastSeenText } from '../core/knowledge.js';
-import { recall } from '../core/memory.js';
+import { recall, recentEvents } from '../core/memory.js';
 import { skillWord } from '../core/skills.js';
 import { sim } from '../core/state.js';
 import { DECREES } from '../data/civic.js';
@@ -121,6 +121,8 @@ function personNear(npc, o) {
   };
 }
 
+const hoursAgo = at => { const h = Math.round((sim.time - at) / 60); return h < 1 ? 'just now' : `${h}h ago`; };
+
 export function buildState(npc, near) {
   const here = sim.placeAt(npc.x, npc.y);
   const kw = [npc.name, ...near.map(o => o.name), here?.name, ...(npc.goal || '').split(' ').filter(w => w.length > 5).slice(0, 4)];
@@ -133,6 +135,7 @@ export function buildState(npc, near) {
     you: selfState(npc, here),
     people_near: near.map(o => personNear(npc, o)),
     people_elsewhere: sim.npcs.filter(o => o !== npc && !near.includes(o) && o.age >= 3).map(o => `${o.name} (${relLabel(npc, o.name)}): ${lastSeenText(npc, o.name)}`),
+    recent_events: recentEvents(npc, 12).map(m => `${m.gist} (${hoursAgo(m.at)})`),
     upcoming_gatherings: sim.gatherings.map(g => `${g.title} at ${g.place}${sim.time >= g.start ? ' (now)' : ` in ${Math.round((g.start - sim.time) / 60)}h`}`),
     promises_you_made: openPromisesFrom(npc).map(p => `to ${p.to}: ${p.what} (due in ${Math.max(0, Math.round((p.due - sim.time) / 60))}h)`),
     promises_made_to_you: openPromisesTo(npc).map(p => `${p.from}: ${p.what}`),

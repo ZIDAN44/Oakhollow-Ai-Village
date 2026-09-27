@@ -93,6 +93,15 @@ const OUTCOMES = {
   study(npc, a) { practice(npc, a.skill, 3); practice(npc, 'scholarship', 1); remember(npc, `You studied ${a.skill}.`, null, 2); },
   problem(npc, a) { const pr = sim.problems.find(p => p.id === a.problemId); if (pr) contribute(npc, pr); },
   promise(npc, a) { const pr = sim.promises.find(p => p.id === a.promiseId); if (pr) keepPromise(pr); },
+  helpOut(npc) {
+    const p = sim.placeAt(npc.x, npc.y);
+    if (!p) return;
+    lift(npc, 0.3);
+    remember(npc, `You helped out at ${p.name} when trouble came.`, `${npc.name} helped out at ${p.name}`, 4);
+    sim.nearby(npc, 150).forEach(o => addMod(o, npc.name, `helped out at ${p.name}`, { aff: 3, trust: 3 }, 96));
+    const owner = sim.findNpc(p.owner || p.biz?.owner);
+    if (owner && owner !== npc) addMod(owner, npc.name, `helped when trouble came to my ${p.name}`, { aff: 6, trust: 4 }, 168);
+  },
   openDoor(npc) { if (sim.sealedDoor !== 'found') return; openSealedDoor(npc); npc.lifeMemories.push(`I opened the sealed door beneath the ruins on day ${sim.day()}.`); },
 };
 

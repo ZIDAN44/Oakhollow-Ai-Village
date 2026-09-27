@@ -204,65 +204,65 @@
    [
     "Mira",
     27,
-    927,
-    357,
+    889,
+    279,
     100,
     65,
-    "coins9",
+    "food1,coins9",
     "move",
     120
    ],
    [
     "Tobias",
     45,
-    712,
-    265,
+    516,
+    353,
     100,
     50,
-    "coins50",
+    "food1,coins50",
     "move",
     120
    ],
    [
     "Elena",
     34,
-    939,
-    272,
+    528,
+    368,
     100,
     56,
     "coins10,remedy2",
-    "do",
+    "move",
     120
    ],
    [
     "Bram",
     53,
-    922,
-    248,
+    937,
+    304,
     100,
     21,
-    "food3,wood2,coins12",
-    "move",
+    "food3,wood5,coins12",
+    "eat",
     120
    ],
    [
     "Sera",
     19,
-    938,
-    225,
+    554,
+    312,
     100,
     45,
     "food6",
-    "gather",
+    "move",
     120
    ],
    [
     "Hugo",
     78,
-    945,
-    357,
+    914,
+    601,
     100,
-    19,
+    20,
     "coins17",
     "do",
     120
@@ -342,7 +342,7 @@
    ],
    [
     "Bram's Cabin",
-    100,
+    64,
     null
    ],
    [
@@ -351,29 +351,29 @@
     null
    ]
   ],
-  "log": 295,
+  "log": 294,
   "lastLog": [
+   "⛈️ A storm breaks over Oakhollow! Thunder and lashing rain.",
    "❗ New problem: Repair the broken bridge",
-   "🔵 Blue lights flicker among the Old Ruins...",
-   "Tobias → Sera: \"I keep thinking about throwing the best harvest festival this village has ever seen.\"",
-   "Sera → Tobias: \"Ooh, I've always liked Mira. Heart of gold.\"",
-   "Tobias → Sera: \"It's always nice to see you, Sera.\"",
-   "Sera → Tobias: \"Oh! Morning to you, Tobias.\"",
-   "Elena → Bram: \"You've a good head on your shoulders, Bram.\"",
-   "Tobias → Sera: \"Busy day, Sera? Mark my words.\"",
-   "Sera → Tobias: \"The festival's only a few days off now.\"",
-   "Sera → Tobias: \"Say, keeping busy, Tobias?\"",
-   "Sera → Tobias: \"The well water tastes sweeter lately, don't you think?\"",
-   "Sera → Tobias: \"Ooh, Tobias, what do you know about the lights at the ruins?\"",
-   "Tobias → Sera: \"Listen here, you're a disgrace, Sera.\"",
-   "🔍 Mira found a clue: Under the slab is a sealed door, humming faintly. Something is behind it.",
-   "✅ SOLVED: The mystery of the blue lights (thanks to Elena, Hugo, Sera)"
+   "Elena → Bram: \"Hm. Come have a drink with me sometime, Bram.\"",
+   "Tobias → Sera: \"Quiet day in Oakhollow, eh Sera?\"",
+   "Bram pitches in to help at Bram's Cabin.",
+   "Sera → Tobias: \"Why did the ghost skip the festival, Tobias? No body to go with. ♪\"",
+   "Sera → Tobias: \"Tobias, what do you know about the lights at the ruins?\"",
+   "Hugo pitches in to help at River.",
+   "Mira → Bram: \"Come have a drink with me sometime, Bram.\"",
+   "Bram → Mira: \"Mind how you go, Mira.\"",
+   "Mira → Bram: \"Bram, would you teach me some woodcutting?\"",
+   "Bram pitches in to help at River.",
+   "Mira pitches in to help at River.",
+   "Elena cleans and tidies up.",
+   "Bram → Mira: \"I can't do that.\""
   ],
   "problems": [
    [
     "The mystery of the blue lights",
-    100,
-    true
+    95,
+    false
    ],
    [
     "Prepare the harvest festival",
@@ -382,7 +382,7 @@
    ],
    [
     "Repair the broken bridge",
-    10,
+    0,
     false
    ]
   ],
@@ -397,66 +397,66 @@
    [
     "Mira",
     28,
-    118,
-    647,
+    415,
+    492,
     100,
-    43,
+    44,
     "food2,coins8",
-    "do",
+    "move",
     120
    ],
    [
     "Tobias",
     46,
-    912,
-    619,
+    126,
+    675,
     100,
-    62,
-    "water1,coins38",
-    "move",
+    23,
+    "coins43",
+    "do",
     120
    ],
    [
     "Elena",
     35,
-    510,
-    444,
+    131,
+    645,
     100,
     50,
-    "coins5,remedy2",
-    "move",
+    "coins10,herbs2",
+    "do",
     120
    ],
    [
     "Bram",
     53,
-    446,
-    327,
+    445,
+    324,
     100,
-    52,
-    "food7,wood3,coins16,herbs1,tool1",
-    "talk",
+    55,
+    "food1,wood3,coins17,herbs1,tool1",
+    "move",
     120
    ],
    [
     "Sera",
     20,
-    523,
-    333,
+    826,
+    234,
     100,
     38,
-    "food3,coins1",
+    "food1,coins1,remedy1",
     "move",
     120
    ],
    [
     "Hugo",
     78,
-    888,
-    446,
+    931,
+    184,
     100,
-    49,
-    "food2,coins17",
+    37,
+    "food1,coins16",
     "move",
     120
    ]
@@ -471,7 +471,7 @@
    [
     "River",
     100,
-    17
+    19
    ],
    [
     "Hale Farm",
@@ -544,29 +544,29 @@
     null
    ]
   ],
-  "log": 265,
+  "log": 263,
   "lastLog": [
-   "Mira → Tobias: \"The village is lucky to have you, Tobias.\"",
-   "Mira → Tobias: \"Honestly, did you hear, Tobias? Mira found a clue at the ruins: Old carvings on the stones show people bowing to a glowing figure.\"",
-   "Mira → Tobias: \"Ah, Tobias. Just the person.\"",
-   "Elena cleans and tidies up.",
-   "Hugo → Tobias: \"What do you make of Mira, Tobias?\"",
-   "Bram → everyone: \"Say what you like, Mira has been good to me.\"",
-   "Tobias → Hugo: \"Listen here, I don't trust you, Hugo. Not one bit.\"",
-   "Mira → Elena: \"I keep hoping I'll run into you, Elena.\"",
-   "Hugo → Bram: \"What have you been up to, Bram?\"",
-   "Bram → Sera: \"Hmph. Word around the village: Bram found a clue at the ruins: The seal bears a mark: the letters H.A. Hugo Ashby.\"",
-   "🔍 Elena found a clue: Under the slab is a sealed door, humming faintly. Something is behind it.",
-   "✅ SOLVED: The mystery of the blue lights (thanks to Elena, Hugo, Mira)",
-   "Bram → Sera: \"Sera, we need your help: repair the broken bridge.\"",
-   "Sera → Bram: \"Ah, Bram. Just the person. Hehe.\"",
-   "Bram → Sera: \"We should spend more time together, Sera.\""
+   "🔵 Blue lights flicker among the Old Ruins...",
+   "Hugo → Elena: \"Elena, what do you know about the lights at the ruins?\"",
+   "🔍 Elena found a clue: The seal bears a mark: the letters H.A. Hugo Ashby?",
+   "Elena → Bram: \"I'd tell you a joke about the well, Bram, but it's too deep.\"",
+   "Tobias → Sera: \"Gladly!\"",
+   "Elena → Bram: \"Did you hear, Bram? Elena found a clue at the ruins: The seal bears a mark: the letters H.A. Hugo Ashby.\"",
+   "Hugo cleans and tidies up.",
+   "Tobias sits alone, lost in thought.",
+   "Mira → Bram: \"Bram, would you teach me some woodcutting?\"",
+   "Mira → Bram: \"Smell that? Someone's baking. Anyway, back to work.\"",
+   "Tobias nurses a mug of ale at the bar.",
+   "Mira → Bram: \"Bram, what do you know about the lights at the ruins?\"",
+   "Mira → Bram: \"Word around the village: Mira found a clue at the ruins: Old carvings on the stones show people bowing to a glowing figure.\"",
+   "Mira → Bram: \"Ah, Bram. Just the person.\"",
+   "🌧️ It starts to rain."
   ],
   "problems": [
    [
     "The mystery of the blue lights",
-    100,
-    true
+    93,
+    false
    ],
    [
     "Prepare the harvest festival",
@@ -575,7 +575,7 @@
    ],
    [
     "Repair the broken bridge",
-    34,
+    30,
     false
    ]
   ],

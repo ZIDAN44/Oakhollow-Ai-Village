@@ -1,4 +1,5 @@
 // The typed questions sent to Jev alongside the action.
+import { eventQuestion } from './events.js';
 import { sim } from '../core/state.js';
 import { VOICE_BELIEFS, VOICE_REACTIONS } from '../data/lore.js';
 import { ADULT_ROLES } from '../data/skills.js';
@@ -72,7 +73,7 @@ export function buildQuestions(npc, options, near) {
   const q = {
     action: {
       type: 'choice',
-      instructions: `What does ${me} (\`you\`) do next? Choose what this person would truly do right now, given their personality, life_goal, secret, mood, relationships and why they feel that way, requests_to_you, memories, the village situation, and their body. Urgent needs (starving, desperately thirsty, exhausted, gravely hurt) usually come first. People answer when spoken to, but conversations end after a few lines. Violence and theft are rare and only for the angry, desperate or wicked.`,
+      instructions: `What does ${me} (\`you\`) do next? Choose what this person would truly do right now, given their personality, life_goal, secret, mood, relationships and why they feel that way, requests_to_you, recent_events, memories, the village situation, and their body. Urgent needs (starving, desperately thirsty, exhausted, gravely hurt) usually come first. People answer when spoken to, but conversations end after a few lines. Violence and theft are rare and only for the angry, desperate or wicked.`,
       criteria: Object.fromEntries(options.map(o => [o.key, o.desc])),
     },
     mood: { type: 'score', instructions: `How does ${me} feel right now?`, criteria: MOOD_LEVELS },
@@ -117,6 +118,7 @@ export function buildQuestions(npc, options, near) {
       criteria: Object.fromEntries(Object.entries(VOICE_REACTIONS).map(([k, v]) => [k, fill(v.desc, npc)])),
     };
   }
+  Object.assign(q, eventQuestion(npc, options));
   if (npc.comingOfAge) {
     q.role = {
       type: 'choice',
