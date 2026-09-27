@@ -8,7 +8,7 @@ import { cap, clamp } from '../core/util.js';
 export function damagePlace(p, amount, why) {
   p.condition = clamp((p.condition ?? 100) - amount, 0, 100);
   if (p.biz && p.condition < 40) p.biz.stock = {};
-  worldEventAll(`${cap(why)} damaged the ${p.name}${p.condition < 40 ? '. It is barely usable until repaired' : ''}.`, 6);
+  worldEventAll(`${cap(why)} damaged the ${p.name}${p.condition < 40 ? '. It is barely usable until repaired' : ''}.`, 6, '🏚️');
   const owner = sim.findNpc(p.owner || p.biz?.owner);
   if (owner) remember(owner, `Your ${p.name} was damaged by ${why}.`, null, 7);
 }

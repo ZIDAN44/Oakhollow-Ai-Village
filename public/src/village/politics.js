@@ -40,7 +40,7 @@ export function startElection(reason) {
   const candidates = adults.map(n => [n.name, reputation(n) + skill(n, 'leadership') / 3]).sort((a, b) => b[1] - a[1]).slice(0, 4).map(x => x[0]);
   if (sim.leader && !candidates.includes(sim.leader) && sim.findNpc(sim.leader)) candidates.push(sim.leader);
   sim.election = { candidates, votes: {}, ends: sim.time + 240, reason };
-  worldEventAll(`An election for village leader has been called! ${reason} Candidates: ${candidates.join(', ')}.`, 8);
+  worldEventAll(`An election for village leader has been called! ${reason} Candidates: ${candidates.join(', ')}.`, 8, '🗳️');
 }
 
 export function tallyElection() {
@@ -56,14 +56,14 @@ export function tallyElection() {
   sim.leader = winner;
   const w = sim.findNpc(winner);
   if (w) { w.lifeMemories.push(`I was elected leader of Oakhollow on day ${sim.day()}.`); practice(w, 'leadership', 5); }
-  worldEventAll(`${winner} has been elected leader of Oakhollow (${ranked.map(([n, c]) => `${n} ${c}`).join(', ')}).`, 8);
+  worldEventAll(`${winner} has been elected leader of Oakhollow (${ranked.map(([n, c]) => `${n} ${c}`).join(', ')}).`, 8, null);
   chronicle(`🗳️ ${winner} wins the election! (${ranked.map(([n, c]) => `${n}: ${c}`).join(', ')})`, w, 'event');
   if (old && old !== winner) { const o = sim.findNpc(old); if (o) addMod(o, winner, 'took my place as leader', { aff: -10 }, 240); }
 }
 
 export function decree(leader, law) {
   if (!sim.laws.includes(law)) sim.laws.push(law);
-  worldEventAll(`${leader.name}, the village leader, decrees: "${DECREES[law]}"`, 7);
+  worldEventAll(`${leader.name}, the village leader, decrees: "${DECREES[law]}"`, 7, null);
   chronicle(`📜 ${leader.name} decrees: ${DECREES[law]}`, leader, 'event');
   if (law === 'festival') {
     const start = sim.time + 120;
@@ -79,5 +79,5 @@ export function decree(leader, law) {
 
 export function repeal(leader, law) {
   sim.laws = sim.laws.filter(l => l !== law);
-  worldEventAll(`${leader.name} has repealed the law: "${DECREES[law]}"`, 5);
+  worldEventAll(`${leader.name} has repealed the law: "${DECREES[law]}"`, 5, '📜');
 }

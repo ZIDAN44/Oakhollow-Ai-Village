@@ -76,7 +76,7 @@ export function step(dt) {
 }
 
 export function worldEvent(text, quiet) {
-  worldEventAll(text, 7);
+  worldEventAll(text, 7, null);
   chronicle(`${quiet ? '🌍' : '📣'} ${text}`, null, 'god');
   for (const n of sim.npcs) n.awareness = Math.min(100, (n.awareness || 0) + 2);
 }

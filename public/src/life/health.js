@@ -42,7 +42,7 @@ export function fallSick(n, why) {
   chronicle(`🤒 ${n.name} has fallen sick.`, n, 'life');
   if (sim.npcs.filter(x => x.sick).length >= 3 && !sim.problem('outbreak')) {
     addProblem('outbreak');
-    worldEventAll('A sickness is spreading through the village!', 7);
+    worldEventAll('A sickness is spreading through the village!', 7, '🤒');
   }
 }
 

@@ -113,11 +113,11 @@ export function punish(leader, target, kind) {
     target.inv.coins -= fine; sim.treasury += fine;
     speak(leader, target, { intent: 'argue', text: leader._line || `${target.name}, for your crimes you are fined ${fine} coins.` });
     addMod(target, leader.name, 'fined me', { aff: -15 }, 168);
-    worldEventAll(`${leader.name} fined ${target.name} ${fine} coins for ${P(target).their} crimes.`, 6);
+    worldEventAll(`${leader.name} fined ${target.name} ${fine} coins for ${P(target).their} crimes.`, 6, '⚖️');
     target.crimes = [];
   } else {
     speak(leader, target, { intent: 'threaten', text: leader._line || `${target.name}, you are banished from Oakhollow. Leave and never return.` });
-    worldEventAll(`${leader.name} has banished ${target.name} from Oakhollow!`, 9);
+    worldEventAll(`${leader.name} has banished ${target.name} from Oakhollow!`, 9, '⚖️');
     target.lifeMemories.push(`I was banished from Oakhollow by ${leader.name}.`);
     startAction(target, { type: 'leave' });
   }

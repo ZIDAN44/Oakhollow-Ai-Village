@@ -5,6 +5,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { newWorld, api } from './harness.mjs';
 import { speakerBlock } from '../public/src/ai/speech/prompt.js';
+import { startElection } from '../public/src/village/politics.js';
+import { strangerTheft } from '../public/src/village/storyteller.js';
 
 const FIRE = 'A fire breaks out at The Crooked Mug Tavern!';
 const TAVERN = 'The Crooked Mug Tavern';
@@ -84,4 +86,18 @@ test('the speech prompt carries the event, so villagers talk about it', () => {
   assert.doesNotMatch(speakerBlock(npc), /fire/);
   api.worldEventAll(FIRE);
   assert.match(speakerBlock(npc), /A fire breaks out at The Crooked Mug Tavern/);
+});
+
+// Regression: world events only reached memories, so a forced election or a second robbery left no trace
+// in the chronicle, and the player saw nothing happen.
+test('world events show in the chronicle', () => {
+  const sim = newWorld(36);
+  startElection('The gods demand a vote.');
+  assert.match(sim.log.at(-1).text, /^🗳️ An election for village leader has been called!/);
+  sim.npcs[0].inv.coins = sim.npcs[1].inv.coins = 50;
+  strangerTheft();
+  const logged = sim.log.length;
+  strangerTheft(); // the robbery problem already exists, so no "New problem" entry either
+  assert.equal(sim.log.length, logged + 1);
+  assert.match(sim.log.at(-1).text, /has been robbed/);
 });

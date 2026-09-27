@@ -18,7 +18,7 @@ export function storyteller(force = false) {
     if (quiet < 6 * 60 || sim.tension > 25 || Math.random() > 0.35) return;
   }
   const events = [
-    ['wolves', () => !sim.problem('wolves'), () => { addProblem('wolves'); worldEventAll('Wolves have been seen prowling in Whisperwood Forest! It is dangerous to go there alone.', 7); }],
+    ['wolves', () => !sim.problem('wolves'), () => { addProblem('wolves'); worldEventAll('Wolves have been seen prowling in Whisperwood Forest! It is dangerous to go there alone.', 7, '🐺'); }],
     ['storm', () => sim.weather.kind !== 'storm' && sim.season() !== 'Winter', () => changeWeather('storm')],
     ['blizzard', () => sim.season() === 'Winter', () => { changeWeather('snow'); worldEventAll('A blizzard buries the village in snow. Anyone caught outside will freeze.', 6); }],
     ['sickness', () => sim.npcs.some(n => !n.sick && !n.immortal && sim.time > (n.immuneUntil || 0)), () => fallSick(pick(sim.npcs.filter(n => !n.sick && !n.immortal && sim.time > (n.immuneUntil || 0))), 'a bad fever')],
@@ -41,6 +41,6 @@ export function strangerTheft() {
   const amount = Math.min(victim.inv.coins, 5 + Math.floor(Math.random() * 8));
   victim.inv.coins -= amount;
   remember(victim, `Someone stole ${amount} coins from you! You don't know who.`, `${victim.name} was robbed of ${amount} coins`, 8);
-  worldEventAll(`${victim.name} has been robbed of ${amount} coins. Nobody knows who did it.`, 6);
+  worldEventAll(`${victim.name} has been robbed of ${amount} coins. Nobody knows who did it.`, 6, '🤫');
   if (!sim.problem('robbery')) addProblem('robbery', { culprit: null });
 }

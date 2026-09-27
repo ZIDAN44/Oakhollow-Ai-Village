@@ -64,7 +64,9 @@ export function wake(npc) {
 }
 
 // News for the whole village. Each person marks it as an event, so minds can react to it (ai/events.js).
-export function worldEventAll(text, importance = 7) {
+// It goes in the chronicle too, under `icon`; callers that write their own chronicle entry pass null.
+export function worldEventAll(text, importance = 7, icon = '📢') {
+  if (icon) chronicle(`${icon} ${text}`, null, 'event');
   for (const o of sim.npcs) {
     remember(o, `EVENT: ${text}`, text, importance);
     o.memory.at(-1).event = true;

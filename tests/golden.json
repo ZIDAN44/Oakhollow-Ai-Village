@@ -163,7 +163,7 @@
     null
    ]
   ],
-  "log": 287,
+  "log": 288,
   "lastLog": [
    "Sera → Tobias: \"Busy day, Tobias? ♪\"",
    "Garrick → Tobias: \"Tobias, what do you know about the lights at the ruins?\"",
@@ -351,10 +351,10 @@
     null
    ]
   ],
-  "log": 294,
+  "log": 297,
   "lastLog": [
-   "⛈️ A storm breaks over Oakhollow! Thunder and lashing rain.",
-   "❗ New problem: Repair the broken bridge",
+   "📢 The storm has smashed the bridge over the river!",
+   "🏚️ The storm damaged the Bram's Cabin.",
    "Elena → Bram: \"Hm. Come have a drink with me sometime, Bram.\"",
    "Tobias → Sera: \"Quiet day in Oakhollow, eh Sera?\"",
    "Bram pitches in to help at Bram's Cabin.",
@@ -544,7 +544,7 @@
     null
    ]
   ],
-  "log": 263,
+  "log": 266,
   "lastLog": [
    "🔵 Blue lights flicker among the Old Ruins...",
    "Hugo → Elena: \"Elena, what do you know about the lights at the ruins?\"",
